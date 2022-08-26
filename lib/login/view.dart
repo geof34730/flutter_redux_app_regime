@@ -7,6 +7,7 @@ import 'package:validators/validators.dart';
 import 'widgets/loginFormState1.dart';
 import 'widgets/loginFormState2.dart';
 
+
 class LoginPage extends StatelessWidget {
   final Store<dynamic> store;
 

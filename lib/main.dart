@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import '_state/appState.dart';
 import '_state/store.dart';
-
 import 'login/view.dart';
 
-void main() {
+Future main() async {
   AppState combinedInitialState = AppState(1);
   final store = Store<AppState>(appStateReducer, initialState: combinedInitialState);
-  runApp(
-    MyApp(
-      store: store,
-    ),
-  );
+  await dotenv.load(fileName: "../.env");
+  runApp(MyApp(store:store));
 }
-
 
 
 class MyApp extends StatelessWidget {
