@@ -1,9 +1,20 @@
 // Define your State
+import '../_models/user.dart';
+
 class AppState {
-  int loginState;
+  dynamic loginState;
+  Userdata user;
 
+  AppState({
+    required this.loginState,
+    required this.user
+  });
 
-  AppState(this.loginState);
+  factory AppState.initial() => AppState(
+      loginState : "email",
+      user : Userdata.initial()
+  );
+
 }
 
 

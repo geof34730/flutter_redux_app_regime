@@ -9,9 +9,6 @@ import '../../_state/store.dart';
 class Login {
 
   Future<void> sendEmailLogin({required String email, required dynamic store}) async {
-    print(email);
-
-
     String urlEnv= "${dotenv.get("URL_API")}/user/login/stage1";
     final url = Uri.parse(urlEnv);
     final headers = {"Content-type": "application/json"};
@@ -27,6 +24,7 @@ class Login {
     else{
       //nouvelle utilisateur
       print("nouvelle utilisateur");
+      store.dispatch(loginActions.Register);
     }
 
 

@@ -6,6 +6,7 @@ import '../_state/store.dart';
 import 'package:validators/validators.dart';
 import 'widgets/loginFormState1.dart';
 import 'widgets/loginFormState2.dart';
+import 'widgets/register.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -34,15 +35,20 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
-          child: StoreConnector<dynamic, int>(
+          child: StoreConnector<dynamic, dynamic>(
             converter: (store) => store.state.loginState,
             builder: (context, loginState) {
               print(loginState);
-              if(loginState==1){
+              if(loginState=="email"){
                   return loginFormState1(context: context, formKey: _formKey,store:store);
               }
               else{
-                  return loginFormState2(context: context, formKey: _formKey,store:store);
+                if(loginState=="password") {
+                  return loginFormState2(context: context, formKey: _formKey, store: store);
+                }
+                else{
+                  return register(context: context, formKey: _formKey, store: store);
+                }
               }
             },
           ),

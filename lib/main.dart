@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:regime_redux_v2/_models/user.dart';
 import '_state/appState.dart';
 import '_state/store.dart';
 import 'login/view.dart';
+import '_models/user.dart';
 
 Future main() async {
-  AppState combinedInitialState = AppState(1);
+
+
+
+  AppState combinedInitialState = AppState.initial();
   final store = Store<AppState>(appStateReducer, initialState: combinedInitialState);
   await dotenv.load(fileName: "../.env");
   runApp(MyApp(store:store));

@@ -1,37 +1,52 @@
 class Userdata {
-  late final dynamic id;
-  final String uuid;
-  final String pseudo;
+  late final dynamic? id;
+  final String? uuid;
+  final String? pseudo;
   final String email;
-  final String password;
-  final String profil;
-  final DateTime datenaissance;
-  final String sexe;
-  final double taille;
+  final String? profil;
+  final DateTime? datenaissance;
+  final String? sexe;
+  final double? taille;
   final String imageprofil;
   final String uuidfamillyadmin;
   final bool inscriptionvalide;
 
-  Userdata(
-      this.uuid,
-      this.pseudo,
-      this.email,
-      this.password,
-      this.profil,
-      this.datenaissance,
-      this.sexe,
-      this.taille,
-      this.imageprofil,
-      this.uuidfamillyadmin,
-      this.inscriptionvalide
-      );
+
+  Userdata({
+    this.id,
+    required this.uuid,
+    required this.pseudo,
+    required this.email,
+    required this.profil,
+    required this.datenaissance,
+    required this.sexe,
+    required this.taille,
+    required this.imageprofil,
+    required this.uuidfamillyadmin,
+    required this.inscriptionvalide,
+  });
+
+
+  factory Userdata.initial() => Userdata(
+      id:null,
+      uuid:"",
+      pseudo:"",
+      email:"",
+      profil:"",
+      datenaissance:null,
+      sexe:"",
+      taille:null,
+      imageprofil:"",
+      uuidfamillyadmin:"",
+      inscriptionvalide:false
+  );
+
 
   Userdata.fromMap(Map<String, dynamic> map)
       : id = map["id"],
         uuid = map["uuid"],
         pseudo = map["pseudo"],
         email = map["email"],
-        password = map["password"],
         profil = map["profil"],
         datenaissance = map["datenaissance"],
         sexe = map["sexe"],
@@ -40,6 +55,7 @@ class Userdata {
         uuidfamillyadmin = map["uuidfamillyadmin"],
         inscriptionvalide = map["inscriptionvalide"];
 
+
   get map => null;
 
   Map<String, Object?> toMap() {
@@ -47,7 +63,6 @@ class Userdata {
       'uuid': uuid,
       'pseudo': pseudo,
       'email': email,
-      'password': password,
       'profil': profil,
       'datenaissance': datenaissance,
       'sexe': sexe,
