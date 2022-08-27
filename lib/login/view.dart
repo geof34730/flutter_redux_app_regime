@@ -38,7 +38,6 @@ class LoginPage extends StatelessWidget {
           child: StoreConnector<dynamic, dynamic>(
             converter: (store) => store.state.loginState,
             builder: (context, loginState) {
-              print(loginState);
               if(loginState=="email"){
                   return loginFormState1(context: context, formKey: _formKey,store:store);
               }

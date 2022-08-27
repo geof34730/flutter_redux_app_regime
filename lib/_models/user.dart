@@ -1,11 +1,11 @@
 class Userdata {
   late final dynamic? id;
-  final String? uuid;
-  final String? pseudo;
-  final String email;
-  final String? profil;
+  final String uuid;
+  final String pseudo;
+  late  String email;
+  final String profil;
   final DateTime? datenaissance;
-  final String? sexe;
+  final String sexe;
   final double? taille;
   final String imageprofil;
   final String uuidfamillyadmin;
@@ -31,7 +31,7 @@ class Userdata {
       id:null,
       uuid:"",
       pseudo:"",
-      email:"",
+      email:"YOYOYOYOYO",
       profil:"",
       datenaissance:null,
       sexe:"",
@@ -72,4 +72,11 @@ class Userdata {
       "inscriptionvalide" : inscriptionvalide
     };
   }
+  updateEmail(String Email){
+    this.email=Email;
+  }
+
+
+
+
 }

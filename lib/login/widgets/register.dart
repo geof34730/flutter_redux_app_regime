@@ -27,7 +27,7 @@ Widget register({required context, required formKey, required dynamic store}) {
                             alignment: AlignmentDirectional.center,
                             padding: const EdgeInsets.all(10),
                             width: widthContainer,
-                            child: Text('INSCRIPTION,',
+                            child: Text(store.state.user.email.toString(),
                                 style: GoogleFonts.pacifico(
                                     textStyle: const TextStyle(
                                         color: Colors.black,
@@ -44,9 +44,6 @@ Widget register({required context, required formKey, required dynamic store}) {
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(content: Text('Traitement en cours, veuillez patienter')),
                                         );
-
-                                       // App
-                                        store.dispatch(dataUserActions.emailLogin);
                                       }
                                     },
                                     icon: const Icon(

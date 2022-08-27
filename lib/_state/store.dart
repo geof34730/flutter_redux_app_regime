@@ -1,15 +1,17 @@
 import 'appState.dart';
 enum loginActions { State1, State2, Register}
-enum dataUserActions {emailLogin}
 
 
+class SetEmailLoginAction {
+  final String email;
+  SetEmailLoginAction(this.email);
+}
 
 dynamic ConnectUser(dynamic state, dynamic action) {
   switch (action) {
     case loginActions.State1:
       state="email";
       break;
-
     case loginActions.State2:
       state="password";
       break;
@@ -22,10 +24,8 @@ dynamic ConnectUser(dynamic state, dynamic action) {
 }
 
 dynamic dataUser(dynamic state, dynamic action) {
-  switch (action) {
-    case dataUserActions.emailLogin:
-      state="email";
-      break;
+ if (action is SetEmailLoginAction) {
+     state.updateEmail(action.email);
   }
   return state;
 }

@@ -1,9 +1,8 @@
-// Define your State
 import '../_models/user.dart';
 
 class AppState {
-  dynamic loginState;
-  Userdata user;
+  final String loginState;
+  final Userdata user;
 
   AppState({
     required this.loginState,

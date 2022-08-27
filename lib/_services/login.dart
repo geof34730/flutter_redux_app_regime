@@ -17,6 +17,8 @@ class Login {
     print('Status code: ${response.statusCode}');
     print('Body: ${response.body}');
     late dynamic responseJson=jsonDecode(response.body) ;
+    store.dispatch(SetEmailLoginAction(email));
+
     if(responseJson["userRegister"]){
       //email déjà inscrit
       store.dispatch(loginActions.State2);
