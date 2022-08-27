@@ -1,11 +1,9 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import '../_models/user.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import '../../_state/store.dart';
+import '../_state/store_user.dart';
+import '../_state/store_connect.dart';
+
 class Login {
 
   Future<void> sendEmailLogin({required String email, required dynamic store}) async {
@@ -18,7 +16,6 @@ class Login {
     print('Body: ${response.body}');
     late dynamic responseJson=jsonDecode(response.body) ;
     store.dispatch(SetEmailLoginAction(email));
-
     if(responseJson["userRegister"]){
       //email déjà inscrit
       store.dispatch(loginActions.State2);
@@ -28,9 +25,6 @@ class Login {
       print("nouvelle utilisateur");
       store.dispatch(loginActions.Register);
     }
-
-
-
   }
 
 }

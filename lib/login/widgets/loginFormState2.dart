@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import '../../_state/store.dart';
+import '../../_state/store_connect.dart';
 
 Widget loginFormState2({required context, required formKey, required dynamic store}) {
   double widthContainer = MediaQuery.of(context).size.width * 0.8;

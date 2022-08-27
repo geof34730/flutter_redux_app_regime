@@ -11,7 +11,6 @@ class Userdata {
   final String uuidfamillyadmin;
   final bool inscriptionvalide;
 
-
   Userdata({
     this.id,
     required this.uuid,
@@ -26,12 +25,11 @@ class Userdata {
     required this.inscriptionvalide,
   });
 
-
   factory Userdata.initial() => Userdata(
       id:null,
       uuid:"",
       pseudo:"",
-      email:"YOYOYOYOYO",
+      email:"",
       profil:"",
       datenaissance:null,
       sexe:"",
@@ -40,7 +38,6 @@ class Userdata {
       uuidfamillyadmin:"",
       inscriptionvalide:false
   );
-
 
   Userdata.fromMap(Map<String, dynamic> map)
       : id = map["id"],
@@ -72,11 +69,9 @@ class Userdata {
       "inscriptionvalide" : inscriptionvalide
     };
   }
+
   updateEmail(String Email){
-    this.email=Email;
+    email=Email;
   }
-
-
-
 
 }
