@@ -5,6 +5,7 @@ dynamic ConnectUser(dynamic state, dynamic action) {
     case loginActions.State1:
       state="email";
       break;
+
     case loginActions.State2:
       state="password";
       break;

@@ -2,33 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:regime_redux_v2/_models/user.dart';
 import '_state/appState.dart';
 import '_state/store.dart';
 import 'login/view.dart';
-import '_models/user.dart';
 
 Future main() async {
-
-
-
+  await dotenv.load(fileName: ".env");
   AppState combinedInitialState = AppState.initial();
   final store = Store<AppState>(appStateReducer, initialState: combinedInitialState);
-  await dotenv.load(fileName: "../.env");
   runApp(MyApp(store:store));
 }
-
 
 class MyApp extends StatelessWidget {
   MyApp({Key? key, required this.store}) : super(key: key);
   final Store<dynamic> store;
-
   @override
   Widget build(BuildContext context) {
     return StoreProvider<dynamic>(
       store: store,
       child:   MaterialApp(
-        debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: (dotenv.get("DEBUG")=="true" ?  true : false),
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: TextButton.styleFrom(
@@ -82,6 +75,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         title: 'Mon poids comme j\'aime',
+
         home: LoginPage(store: store),
       ),
     );

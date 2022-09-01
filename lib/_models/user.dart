@@ -53,20 +53,19 @@ class Userdata {
         inscriptionvalide = map["inscriptionvalide"];
 
 
-  get map => null;
-
-  Map<String, Object?> toMap() {
+  dynamic toJson() {
     return {
-      'uuid': uuid,
-      'pseudo': pseudo,
-      'email': email,
-      'profil': profil,
-      'datenaissance': datenaissance,
-      'sexe': sexe,
-      'taille' : taille,
-      "imageprofil" : imageprofil,
-      "uuidfamillyadmin" : uuidfamillyadmin,
-      "inscriptionvalide" : inscriptionvalide
+      "id":id,
+      "uuid":uuid,
+      "pseudo":pseudo,
+      "email":email,
+      "profil":profil,
+      "datenaissance":datenaissance,
+      "sexe":sexe,
+      "taille":taille,
+      "imageprofil":imageprofil,
+      "uuidfamillyadmin":uuidfamillyadmin,
+      "inscriptionvalide":inscriptionvalide
     };
   }
 

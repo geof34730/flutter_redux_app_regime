@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^3.0.1
   validators: ^3.0.0
   flutter_dotenv: ^5.0.2
+  colored_json: ^1.1.0
 
 dev_dependencies:
   flutter_test:
