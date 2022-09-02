@@ -62,8 +62,7 @@ class LoginPage extends StatelessWidget {
             StoreConnector<dynamic, dynamic>(
               converter: (store) => store.state.globalState,
               builder: (context, globalState) {
-
-                return Container(
+                return SingleChildScrollView(child:Container(
                   color: Colors.black,
                   padding: const EdgeInsets.all(20.00),
                   child:ColoredJson(
@@ -85,7 +84,7 @@ class LoginPage extends StatelessWidget {
                       letterSpacing: 2,
                     ),
                   ),
-                );
+                ));
               }
               ),
           ],

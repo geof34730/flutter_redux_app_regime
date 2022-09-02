@@ -24,12 +24,6 @@ class AppState {
       "globalState": (globalState ?  toJson(globalState: false) : ''),
     };
   }
-
-  /*
-  AppState.fromMap(Map<String, dynamic> map, this.globalState)
-      :  loginState = map["loginState"],
-         user = map["user"];
-*/
 }
 
 

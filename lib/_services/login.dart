@@ -27,4 +27,16 @@ class Login {
     }
   }
 
+  Future<void> sendEmailPasswordLogin({required String password, required dynamic store}) async {
+    String urlEnv= "${dotenv.get("URL_API")}/user/login/stage2";
+    final url = Uri.parse(urlEnv);
+    final headers = {"Content-type": "application/json"};
+    final json = '{"email": "${store.state.user.email}","password":"$password"}';
+    final response = await post(url, headers: headers, body: json);
+    print('Status code: ${response.statusCode}');
+    print('Body: ${response.body}');
+    late dynamic responseJson=jsonDecode(response.body) ;
+    print(responseJson);
+  }
+
 }

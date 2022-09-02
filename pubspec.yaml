@@ -39,6 +39,11 @@ dependencies:
   validators: ^3.0.0
   flutter_dotenv: ^5.0.2
   colored_json: ^1.1.0
+  flutter_pw_validator:
+    git:
+      url: https://github.com/geof34730/flutter_package_pwd_validator
+      ref: 806de48    #commit reference id
+
 
 dev_dependencies:
   flutter_test:

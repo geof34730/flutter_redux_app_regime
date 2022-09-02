@@ -3,9 +3,27 @@ class SetEmailLoginAction {
   SetEmailLoginAction(this.email);
 }
 
+class SetEditPasswordAction {
+  SetEditPasswordAction();
+}
+
+
+
+class SetPasswordAction {
+  final String value;
+  SetPasswordAction(this.value);
+}
 dynamic dataUser(dynamic state, dynamic action) {
   if (action is SetEmailLoginAction) {
     state.updateEmail(action.email);
   }
+  if (action is SetEditPasswordAction) {
+    state.editPassword();
+  }
+  if (action is SetPasswordAction) {
+    state.savePassword(action.value);
+  }
+
+
   return state;
 }

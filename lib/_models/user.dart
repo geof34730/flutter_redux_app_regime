@@ -36,7 +36,7 @@ class Userdata {
       taille:null,
       imageprofil:"",
       uuidfamillyadmin:"",
-      inscriptionvalide:false
+      inscriptionvalide:false,
   );
 
   Userdata.fromMap(Map<String, dynamic> map)

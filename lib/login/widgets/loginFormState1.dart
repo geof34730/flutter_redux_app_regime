@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../../_state/store_connect.dart';
 import '../../_services/login.dart';
 
 
@@ -71,7 +70,8 @@ Widget loginFormState1({required context, required formKey, required dynamic sto
                           padding: const EdgeInsets.all(10),
                           width: widthContainer,
                           child: TextFormField(
-                            controller: controllerEmailLogin,
+
+                            controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
                             decoration: const InputDecoration(
                               icon: Icon(Icons.person),
                               hintText: 'Saisissez votre Email',
