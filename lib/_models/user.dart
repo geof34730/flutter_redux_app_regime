@@ -1,18 +1,18 @@
+import 'dart:convert';
+
 class Userdata {
-  late final dynamic? id;
-  final String uuid;
-  final String pseudo;
-  late  String email;
-  final String profil;
-  final DateTime? datenaissance;
-  final String sexe;
-  final double? taille;
-  final String imageprofil;
-  final String uuidfamillyadmin;
-  final bool inscriptionvalide;
+  late String? uuid;
+  late String? pseudo;
+  late  String? email;
+  late String? profil;
+  late String? datenaissance;
+  late String? sexe;
+  late double? taille;
+  late String? imageprofil;
+  late String? uuidfamillyadmin;
+  late String? token;
 
   Userdata({
-    this.id,
     required this.uuid,
     required this.pseudo,
     required this.email,
@@ -22,26 +22,25 @@ class Userdata {
     required this.taille,
     required this.imageprofil,
     required this.uuidfamillyadmin,
-    required this.inscriptionvalide,
+    required this.token,
   });
 
   factory Userdata.initial() => Userdata(
-      id:null,
-      uuid:"",
-      pseudo:"",
-      email:"",
-      profil:"",
+      uuid:null,
+      pseudo:null,
+      email:null,
+      profil:null,
       datenaissance:null,
-      sexe:"",
+      sexe:null,
       taille:null,
-      imageprofil:"",
-      uuidfamillyadmin:"",
-      inscriptionvalide:false,
+      imageprofil:null,
+      uuidfamillyadmin:null,
+      token:null
+
   );
 
   Userdata.fromMap(Map<String, dynamic> map)
-      : id = map["id"],
-        uuid = map["uuid"],
+      : uuid = map["uuid"],
         pseudo = map["pseudo"],
         email = map["email"],
         profil = map["profil"],
@@ -50,12 +49,10 @@ class Userdata {
         taille = map["taille"],
         imageprofil = map["imageprofil"],
         uuidfamillyadmin = map["uuidfamillyadmin"],
-        inscriptionvalide = map["inscriptionvalide"];
-
+        token = map["token"];
 
   dynamic toJson() {
     return {
-      "id":id,
       "uuid":uuid,
       "pseudo":pseudo,
       "email":email,
@@ -65,7 +62,7 @@ class Userdata {
       "taille":taille,
       "imageprofil":imageprofil,
       "uuidfamillyadmin":uuidfamillyadmin,
-      "inscriptionvalide":inscriptionvalide
+      "token":token
     };
   }
 
@@ -73,4 +70,16 @@ class Userdata {
     email=Email;
   }
 
+  saveUser(dynamic user){
+    uuid = user["uuid"];
+    pseudo = user["pseudo"];
+    email = user["email"];
+    profil = user["profil"];
+    datenaissance = user["datenaissance"];
+    sexe = user["sexe"];
+    taille = user["taille"];
+    imageprofil = user["imageprofil"].toString();
+    uuidfamillyadmin = user["uuidfamillyadmin"];
+    token = user["token"];
+  }
 }

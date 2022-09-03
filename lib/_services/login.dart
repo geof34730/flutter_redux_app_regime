@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
+import 'package:regime_redux_v2/_models/user.dart';
 import 'dart:convert';
 import '../_state/store_user.dart';
 import '../_state/store_connect.dart';
@@ -34,9 +35,16 @@ class Login {
     final json = '{"email": "${store.state.user.email}","password":"$password"}';
     final response = await post(url, headers: headers, body: json);
     print('Status code: ${response.statusCode}');
-    print('Body: ${response.body}');
-    late dynamic responseJson=jsonDecode(response.body) ;
-    print(responseJson);
+    late dynamic responseJson=jsonDecode(response.body)['user'] ;
+
+    if(response.statusCode==200){
+      store.dispatch(SetUserConnectedLoginAction(responseJson));
+    }
+    else{
+
+
+    }
+
   }
 
 }
