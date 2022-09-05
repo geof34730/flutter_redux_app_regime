@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import '../_state/store.dart';
-import 'package:validators/validators.dart';
+import 'package:regime_redux_v2/_widgets/appBar.dart';
+import 'package:regime_redux_v2/_widgets/bottomNavigationBar.dart';
+import 'package:regime_redux_v2/_widgets/drawer.dart';
 import 'widgets/loginFormState1.dart';
 import 'widgets/loginFormState2.dart';
 import 'widgets/register.dart';
-import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'dart:convert';
+import 'widgets/accueil.dart';
 
-import 'package:flutter/material.dart';
-import 'package:colored_json/colored_json.dart';
 
 class LoginPage extends StatelessWidget {
   final Store<dynamic> store;
@@ -23,103 +20,40 @@ class LoginPage extends StatelessWidget {
   }) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  final dartMap = {
-    "id": 24,
-    "name": "Manthan Khandale",
-    "score": 7.6,
-    "socials": null,
-    "hobbies": [
-      "Music",
-      "Filmmaking",
-    ],
-    "isFlutterCool": true,
-  };
+  late dynamic returnWidget;
   @override
   Widget build(BuildContext context) {
     return StoreProvider<dynamic>(
         store: store,
         child:Scaffold(
-        drawer:  ListView(
-          padding: EdgeInsets.zero,
-          children:  <Widget>[
-            const SizedBox(
-              height: 75,
-              child:DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                ),
-                child: Text(
-                  'DEBUG TOOLS GEOFFREY',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
+            appBar:PreferredSize(
+                preferredSize: Size.fromHeight(60.0), // here the desired height
+                child: appBarWidgets(context: context, store: store),
             ),
-
-
-            StoreConnector<dynamic, dynamic>(
-              converter: (store) => store.state.globalState,
-              builder: (context, globalState) {
-                return SingleChildScrollView(child:Container(
-                  color: Colors.black,
-                  padding: const EdgeInsets.all(20.00),
-                  child:ColoredJson(
-                    data: '['+jsonEncode(globalState)+']',
-                    indentLength: 10,
-                    keyColor: Colors.green,
-                    backgroundColor: Colors.black,
-                    boolColor: Colors.white,
-                    nullColor: Colors.redAccent,
-                    stringColor: Colors.cyan,
-                    curlyBracketColor: Colors.yellow,
-                    doubleColor: Colors.deepOrange,
-                    squareBracketColor: Colors.amber,
-                    commaColor: Colors.yellow,
-                    colonColor: Colors.purple,
-                    intColor: Colors.lime,
-                    textStyle: const TextStyle(
-                      fontSize: 15,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                ));
-              }
-              ),
-          ],
-        ),
-
-
-
-        appBar: AppBar(
-          title: Text(
-            "Team Weight",
-            style: GoogleFonts.pacifico(
-                textStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 30.00,
-                )),
-          ),
-        ),
-        body: SingleChildScrollView(
-          child: StoreConnector<dynamic, dynamic>(
-            converter: (store) => store.state.loginState,
-            builder: (context, loginState) {
-              if(loginState=="email"){
-                  return loginFormState1(context: context, formKey: _formKey,store:store);
-              }
-              else{
-                if(loginState=="password") {
-                  return loginFormState2(context: context, formKey: _formKey, store: store);
+            drawer: (dotenv.get("DEBUG")=="true" ?  drawerWidget(context: context, store: store):null),
+            bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
+            body: SingleChildScrollView(
+            child: StoreConnector<dynamic, dynamic>(
+              converter: (store) => store.state.loginState,
+              builder: (context, loginState) {
+                switch (loginState) {
+                  case "email":
+                    returnWidget=loginFormState1(context: context, formKey: _formKey,store:store);
+                    break;
+                  case "password":
+                    returnWidget=loginFormState2(context: context, formKey: _formKey,store:store);
+                    break;
+                  case "register":
+                    returnWidget=register(context: context, formKey: _formKey,store:store);
+                    break;
+                  case "logged":
+                    returnWidget=accueil(context: context, formKey: _formKey,store:store);
+                    break;
                 }
-                else{
-                  return register(context: context, formKey: _formKey, store: store);
-                }
-              }
-            },
-          ),
-        ))
+                return returnWidget;
+              },
+            ),
+          ))
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:redux/redux.dart';
 import '_state/appState.dart';
 import '_state/store.dart';
@@ -20,8 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider<dynamic>(
       store: store,
-      child:   MaterialApp(
-        debugShowCheckedModeBanner: (dotenv.get("DEBUG")=="true" ?  true : false),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: (dotenv.get("DEBUG")=="true" ?  false : false),
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: TextButton.styleFrom(
@@ -45,11 +46,23 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.deepPurple,
             iconTheme: IconThemeData(color: Colors.white),
-            actionsIconTheme: IconThemeData(color: Colors.amber),
+            actionsIconTheme: IconThemeData(color: Colors.white),
             centerTitle: true,
             elevation: 15,
             titleTextStyle: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+
+
+            )
+
+
+
+
+
+
+            ,
           ),
           timePickerTheme: const TimePickerThemeData(
             backgroundColor: Colors.red,
@@ -74,8 +87,7 @@ class MyApp extends StatelessWidget {
             elevation: 15.00,
           ),
         ),
-        title: 'Mon poids comme j\'aime',
-
+        title: 'TeamWeight',
         home: LoginPage(store: store),
       ),
     );

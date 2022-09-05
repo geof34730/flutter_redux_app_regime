@@ -11,7 +11,6 @@ import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 class loginFormState2 extends StatefulWidget {
   final dynamic store;
   final dynamic formKey;
-
    loginFormState2({Key? key,required context, required this.formKey, required this.store}) : super(key: key);
     @override
    _loginFormState2 createState() => _loginFormState2();
@@ -35,7 +34,6 @@ class _loginFormState2 extends State<loginFormState2>{
   Widget build(BuildContext context) {
     dynamic store=widget.store;
     dynamic formKey=widget.formKey;
-
     double widthContainer = MediaQuery.of(context).size.width * 0.8;
 
     // TODO: implement build
@@ -59,7 +57,7 @@ class _loginFormState2 extends State<loginFormState2>{
                               alignment: AlignmentDirectional.center,
                               padding: const EdgeInsets.all(10),
                               width: widthContainer,
-                              child: Text('Bienvenue, saisissez votre mot de de passe,',
+                              child: Text('Bienvenue, saisissez votre mot de passe,',
                                   style: GoogleFonts.pacifico(
                                       textStyle: const TextStyle(
                                           color: Colors.black,
@@ -134,10 +132,13 @@ class _loginFormState2 extends State<loginFormState2>{
                                           :
                                           () {
 
-                                        Login().sendEmailPasswordLogin(password: controllerPasswordLogin.text, store: store);
+                                        Login().sendEmailPasswordLogin(password: controllerPasswordLogin.text, store: store, context: context);
                                         if (formKey.currentState!.validate()) {
                                           ScaffoldMessenger.of(context).showSnackBar(
-                                            const SnackBar(content: Text('Traitement en cours, veuillez patienter')),
+                                            const SnackBar(
+                                                content: Text('Traitement en cours, veuillez patienter'),
+                                                backgroundColor: Colors.green,
+                                            ),
                                           );
                                          // store.dispatch(loginActions.State1);
                                         }

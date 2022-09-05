@@ -32,6 +32,7 @@ dynamic dataUser(dynamic state, dynamic action) {
   }
   if (action is SetUserConnectedLoginAction) {
     state.saveUser(action.user);
+
   }
 
   return state;

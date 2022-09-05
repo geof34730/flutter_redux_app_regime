@@ -7,7 +7,7 @@ class Userdata {
   late String? profil;
   late String? datenaissance;
   late String? sexe;
-  late double? taille;
+  late int? taille;
   late String? imageprofil;
   late String? uuidfamillyadmin;
   late String? token;
@@ -82,4 +82,5 @@ class Userdata {
     uuidfamillyadmin = user["uuidfamillyadmin"];
     token = user["token"];
   }
+
 }
