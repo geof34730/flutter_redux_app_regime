@@ -33,7 +33,6 @@ ListView drawerWidget({
       StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state.globalState,
           builder: (context, globalState) {
-            print("drawer 2");
             return SingleChildScrollView(child:Container(
               color: Colors.black,
               padding: const EdgeInsets.all(20.00),

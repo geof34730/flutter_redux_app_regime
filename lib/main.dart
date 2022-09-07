@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:redux/redux.dart';
 import '_state/appState.dart';
 import '_state/store.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   final Store<dynamic> store;
   @override
   Widget build(BuildContext context) {
+
     return StoreProvider<dynamic>(
       store: store,
       child: MaterialApp(
@@ -88,7 +90,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
         title: 'TeamWeight',
-        home: LoginPage(store: store),
+        home: LoaderOverlay(
+            useDefaultLoading: false,
+            overlayWidget: Center(
+              child: SpinKitFadingCircle(
+                color: Colors.deepPurple,
+                size: 100.0,
+              ),
+            ),
+            child:LoginPage(store: store)
+        ),
       ),
     );
   }

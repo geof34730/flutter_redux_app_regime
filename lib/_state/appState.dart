@@ -20,7 +20,7 @@ class AppState {
   dynamic toJson({bool globalState = true}) {
     return {
       "loginState": loginState,
-      "user": user.toJson(),
+      "user": user.toJson((globalState ?  true : false)),
       "globalState": (globalState ?  toJson(globalState: false) : ''),
     };
   }
