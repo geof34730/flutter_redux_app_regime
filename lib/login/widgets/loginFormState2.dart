@@ -122,7 +122,7 @@ class _loginFormState2 extends State<loginFormState2>{
                                   numericCharCount: 3,
                                   specialCharCount: 1,
                                   width: 400,
-                                  height: 150,
+                                  height: 110,
                                   onSuccess: ()  {
                                     setState((){disabledButtonSubmit=false;});
                                   },
@@ -134,7 +134,8 @@ class _loginFormState2 extends State<loginFormState2>{
 
                             Container(
                                 child: Column(children: [
-                                  Row(mainAxisSize: MainAxisSize.min, children: [
+                                  Row(
+                                      mainAxisSize: MainAxisSize.min, children: [
                                     ElevatedButton.icon(
                                       onPressed: (disabledButtonSubmit
                                           ?
@@ -151,6 +152,9 @@ class _loginFormState2 extends State<loginFormState2>{
                                                   messageErrorPassword=value['messageError']!;
                                                 })
                                               }
+                                              else{
+                                                Loader(context: context,snackBar: true).hideLoader(),
+                                              }
                                             });
                                           }
                                       }
@@ -163,7 +167,29 @@ class _loginFormState2 extends State<loginFormState2>{
                                           style: TextStyle(fontSize: 19)),
                                     ),
                                   ])
-                                ]))
+                                ])),
+                            Container(
+                                constraints: const BoxConstraints(maxWidth: 600),
+                                padding: const EdgeInsets.all(10),
+                                width: widthContainer,
+                                child:TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                                  ),
+                                  onPressed: () {
+                                    print('pressed');
+                                  },
+                                  child: const Text(
+                                    "Mode de passe oublié ?",
+                                    style: TextStyle(
+                                        decoration:TextDecoration.underline,
+                                        color:Colors.deepPurple,
+                                        fontWeight: FontWeight.normal
+                                    ),
+                                  ),
+                                ),
+                            ),
                           ]))
                 ])));
 

@@ -19,6 +19,12 @@ class SetUserConnectedLoginAction {
   SetUserConnectedLoginAction(this.user);
 }
 
+class SetUserLogOutLoginAction {
+  final dynamic store;
+  SetUserLogOutLoginAction(this.store);
+}
+
+
 
 dynamic dataUser(dynamic state, dynamic action) {
   if (action is SetEmailLoginAction) {
@@ -32,8 +38,11 @@ dynamic dataUser(dynamic state, dynamic action) {
   }
   if (action is SetUserConnectedLoginAction) {
     state.saveUser(action.user);
-
   }
+  if (action is SetUserLogOutLoginAction) {
+    action.store.state.user.resetUser();
+  }
+
 
   return state;
 }

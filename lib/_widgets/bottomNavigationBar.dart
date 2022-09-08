@@ -33,23 +33,24 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
                 currentIndex: 0,
                 selectedItemColor: Colors.deepPurple,
                 onTap: (int index) {
-                    switch (index) {
-                      case 0:
-                        print("navigate to Ma team");
-                        break;
-                      case 1:
-                        print("navigate to Mon profil");
-                        break;
-                      case 2:
-                        store.dispatch(loginActions.Logout);
-                        break;
-                    }
+                  switch (index) {
+                    case 0:
+                      print("navigate to Ma team");
+                      break;
+                    case 1:
+                      print("navigate to Mon profil");
+                      break;
+                    case 2:
+                      Scaffold.of(context).closeEndDrawer();
+                      store.dispatch(loginActions.Logout);
+                      break;
+                  }
                   ;
                 },
               );
             }
-    }
-    ));
+          }
+      ));
 }
 
 

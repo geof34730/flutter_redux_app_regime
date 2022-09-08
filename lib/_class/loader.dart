@@ -16,7 +16,6 @@ class Loader{
   });
 
   showLoader(){
-    print("C1");
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           content: Text((messageSnackBar!='' ? messageSnackBar : 'Traitement en cours, veuillez patienter.')),
@@ -28,7 +27,6 @@ class Loader{
   }
 
   hideLoader(){
-    print("C2");
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     context.loaderOverlay.hide();
   }
@@ -45,6 +43,4 @@ class Loader{
     }
     return colorsReturn;
     }
-
-
 }

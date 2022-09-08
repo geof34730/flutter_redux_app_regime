@@ -3,6 +3,8 @@ import 'dart:convert';
 class Userdata {
   late String? uuid;
   late String? pseudo;
+  late String? firstname;
+  late String? lastname;
   late  String? email;
   late String? profil;
   late String? datenaissance;
@@ -15,6 +17,8 @@ class Userdata {
   Userdata({
     required this.uuid,
     required this.pseudo,
+    required this.firstname,
+    required this.lastname,
     required this.email,
     required this.profil,
     required this.datenaissance,
@@ -28,6 +32,8 @@ class Userdata {
   factory Userdata.initial() => Userdata(
       uuid:null,
       pseudo:null,
+      firstname:null,
+      lastname:null,
       email:null,
       profil:null,
       datenaissance:null,
@@ -42,6 +48,8 @@ class Userdata {
   Userdata.fromMap(Map<String, dynamic> map)
       : uuid = map["uuid"],
         pseudo = map["pseudo"],
+        firstname = map["firstname"],
+        lastname = map["lastname"],
         email = map["email"],
         profil = map["profil"],
         datenaissance = map["datenaissance"],
@@ -55,6 +63,8 @@ class Userdata {
     return {
       "uuid":uuid,
       "pseudo":pseudo,
+      "firstname":firstname,
+      "lastname":lastname,
       "email":email,
       "profil":profil,
       "datenaissance":datenaissance,
@@ -70,9 +80,26 @@ class Userdata {
     email=Email;
   }
 
+  resetUser(){
+    uuid=null;
+    pseudo=null;
+    firstname=null;
+    lastname=null;
+    email=null;
+    profil=null;
+    datenaissance=null;
+    sexe=null;
+    taille=null;
+    imageprofil=null;
+    token=null;
+    uuidfamillyadmin=null;
+  }
+
   saveUser(dynamic user){
     uuid = user["uuid"];
     pseudo = user["pseudo"];
+    firstname = user["firstname"];
+    lastname = user["lastname"];
     email = user["email"];
     profil = user["profil"];
     datenaissance = user["datenaissance"];

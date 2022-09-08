@@ -6,11 +6,6 @@ import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../_services/login.dart';
 
-
-
-//Widget loginFormState1({required context, required formKey, required dynamic store}) {
-
-
 class loginFormState1 extends StatefulWidget {
   final dynamic store;
   final dynamic formKey;
@@ -108,7 +103,6 @@ class _loginFormState1 extends State<loginFormState1>{
                                 padding: const EdgeInsets.all(10),
                                 width: widthContainer,
                                 child: TextFormField(
-
                                   controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
                                   decoration: const InputDecoration(
                                     icon: Icon(Icons.person),

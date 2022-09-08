@@ -42,7 +42,7 @@ dependencies:
   flutter_pw_validator:
     git:
       url: https://github.com/geof34730/flutter_package_pwd_validator
-      ref: 806de48    #commit reference id
+      ref: ae83aaca461b0af7a5606c4311f30f3e199d9bae
   loader_overlay: ^2.0.10
   flutter_spinkit: ^5.1.0
 

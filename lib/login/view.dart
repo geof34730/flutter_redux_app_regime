@@ -4,7 +4,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:regime_redux_v2/_widgets/appBar.dart';
 import 'package:regime_redux_v2/_widgets/bottomNavigationBar.dart';
-import 'package:regime_redux_v2/_widgets/drawer.dart';
+import 'package:regime_redux_v2/_widgets/drawerDevTools.dart';
+import 'package:regime_redux_v2/_widgets/drawerUser.dart';
 import 'widgets/loginFormState1.dart';
 import 'widgets/loginFormState2.dart';
 import 'widgets/register.dart';
@@ -31,7 +32,8 @@ class LoginPage extends StatelessWidget {
                 child: appBarWidgets(context: context, store: store),
             ),
             drawer: (dotenv.get("DEBUG")=="true" ?  drawerWidget(context: context, store: store):null),
-            bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
+            endDrawer:drawerUser(context: context, store: store),
+            //bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
             body: SingleChildScrollView(
             child: StoreConnector<dynamic, dynamic>(
               converter: (store) => store.state.loginState,
