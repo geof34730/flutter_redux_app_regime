@@ -43,22 +43,13 @@ class Login {
   }
 
 
-  Future<void> sendEmailForgetPassword({required String email, required dynamic store}) async {
-    String urlEnv= "${dotenv.get("URL_API")}/user/login/forgetPassword";
+  Future<dynamic> sendEmailForgetPassword({required String email, required dynamic store}) async {
+    String urlEnv= "${dotenv.get("URL_API")}/user/passwordforget";
     final url = Uri.parse(urlEnv);
     final headers = {"Content-type": "application/json"};
     final json = '{"email": "$email"}';
     final response = await post(url, headers: headers, body: json);
-    /*
-    store.dispatch(SetEmailLoginAction(email));
-    if(jsonDecode(response.body)["userRegister"]){
-      store.dispatch(loginActions.State2);
-    }
-    else{
-      store.dispatch(loginActions.Register);
-    }
-
-     */
-  }
+    return jsonDecode(response.body);
+ }
 
 }

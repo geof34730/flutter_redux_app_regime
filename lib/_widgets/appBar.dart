@@ -18,7 +18,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
                         color: Colors.white,
                       )),
                 ),
-                actions: <Widget>[
+                actions: const[
                   SizedBox(),
                 ],
               );
