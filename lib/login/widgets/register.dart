@@ -19,8 +19,7 @@ Widget register({required context, required formKey, required dynamic store}) {
               mainAxisSize: MainAxisSize.max,
               children: [
                 ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height-kToolbarHeight),
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height-kToolbarHeight),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
@@ -39,30 +38,9 @@ Widget register({required context, required formKey, required dynamic store}) {
                                 textAlign: TextAlign.center),
                           ),
 
-                          Row(
-                            children:[
-                              Container(
-                                alignment: AlignmentDirectional.topStart,
-                                padding: const EdgeInsets.all(5),
-                                width: 160.00,
-                                child:ListTile(
-                                    leading: const Icon(Icons.male),
-                                    title: const Text("Homme"),
-                                    onTap: () => print("ListTile")
-                                )
-                              ),
-                              Container(
-                                  alignment: AlignmentDirectional.topStart,
-                                  padding: const EdgeInsets.all(5),
-                                  width: 160.00,
-                                  child:ListTile(
-                                      leading: const Icon(Icons.female),
-                                      title: const Text("Femme"),
-                                      onTap: () => print("ListTile")
-                                  )
-                              ),
-                            ]
-                          ),
+
+
+
 
                           Container(
                               constraints: const BoxConstraints(maxWidth: 600),

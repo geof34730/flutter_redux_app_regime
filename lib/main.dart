@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
   final Store<dynamic> store;
   @override
   Widget build(BuildContext context) {
-
     return StoreProvider<dynamic>(
       store: store,
       child: MaterialApp(
@@ -28,10 +27,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: TextButton.styleFrom(
-              padding:
-              EdgeInsets.only(left: 20.0, right: 20.0, top: 15.00, bottom: 15.0),
-              shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.00, bottom: 15.0),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
           ),
           inputDecorationTheme: InputDecorationTheme(
@@ -39,6 +36,12 @@ class MyApp extends StatelessWidget {
                 borderSide: const BorderSide(width: 2, color: Colors.deepPurple),
                 borderRadius: BorderRadius.circular(5),
               ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(width: 2, color: Colors.transparent),
+                borderRadius: BorderRadius.circular(5),
+
+              ),
+
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(width: 3, color: Colors.deepPurple),
                 borderRadius: BorderRadius.circular(5),
@@ -55,16 +58,7 @@ class MyApp extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
-
-
-            )
-
-
-
-
-
-
-            ,
+            ),
           ),
           timePickerTheme: const TimePickerThemeData(
             backgroundColor: Colors.red,

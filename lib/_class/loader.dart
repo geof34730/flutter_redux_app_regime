@@ -23,7 +23,7 @@ class Loader{
           duration:const Duration(days: 365)
       ),
     );
-    context.loaderOverlay.show();
+      context.loaderOverlay.show();
   }
 
   hideLoader(){
