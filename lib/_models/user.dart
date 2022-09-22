@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 class Userdata {
   late String? uuid;
@@ -77,6 +77,8 @@ class Userdata {
   }
 
   updateEmail(String Email){
+    print("update email");
+    print(email);
     email=Email;
   }
 
@@ -108,6 +110,22 @@ class Userdata {
     imageprofil = user["imageprofil"].toString();
     uuidfamillyadmin = user["uuidfamillyadmin"];
     token = user["token"];
+  }
+
+
+  saveUserRegister(dynamic user){
+    uuid=user.uuid;
+    pseudo=user.pseudo;
+    firstname=user.firstname;
+    lastname=user.lastname;
+    email=user.email;
+    profil=user.profil;
+    datenaissance=user.datenaissance;
+    sexe=user.sexe;
+    taille=user.taille;
+    imageprofil=user.imageprofil;
+    token=user.token;
+    uuidfamillyadmin=user.uuidfamillyadmin;
   }
 
 }

@@ -11,8 +11,7 @@ import 'package:flutter/services.dart';
 
 class loginFormState2 extends StatefulWidget {
   final dynamic store;
-  final dynamic formKey;
-   loginFormState2({Key? key,required context, required this.formKey, required this.store}) : super(key: key);
+   loginFormState2({Key? key,required context, required this.store}) : super(key: key);
     @override
    _loginFormState2 createState() => _loginFormState2();
 
@@ -40,30 +39,22 @@ class _loginFormState2 extends State<loginFormState2> {
   @override
   void initState() {
     dynamic store = widget.store;
-    dynamic formKey = widget.formKey;
     super.initState();
   }
-
+  final _formLoginState2 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     dynamic store = widget.store;
-    dynamic formKey = widget.formKey;
     double widthContainer = MediaQuery.of(context).size.width * 0.8;
     return StoreProvider<dynamic>(
         store: store,
         child: Form(
-            key: formKey,
+            key: _formLoginState2,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery
-                              .of(context)
-                              .size
-                              .height - kToolbarHeight),
-                      child: Column(
+                  Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +160,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                               null
                                               :
                                               () {
-                                                  if (formKey.currentState!.validate()) {
+                                                  if (_formLoginState2.currentState!.validate()) {
                                                     Loader(context: context,snackBar: true).showLoader();
                                                     Login().sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
                                                         {
@@ -228,7 +219,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                 ),
                               ),
                             ),
-                          ]))
+                          ])
                 ])));
   }
 
@@ -239,12 +230,9 @@ class _loginFormState2 extends State<loginFormState2> {
       _controllers.add(TextEditingController());
       _enabledControllers.add(true);
     }
-
   }
 
   Future<void> _displayCodeInputDialog({required BuildContext context,required String email,required int timerEnd,required dynamic store}) async {
-
-
     initControllerCode();
       showDialog(
           context: context,
@@ -252,7 +240,6 @@ class _loginFormState2 extends State<loginFormState2> {
             {
               return StatefulBuilder(
                   builder: (context, setState) {
-
                     return AlertDialog(
                       titlePadding: EdgeInsets.only(top: 20, left: 20, right: 20),
                       contentPadding: EdgeInsets.only(top: 20, left: 0, bottom: 20),

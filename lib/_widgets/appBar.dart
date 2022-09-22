@@ -2,8 +2,31 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import '../_state/store_connect.dart';
 
 Widget appBarWidgets({required context, required dynamic store}) {
+
+    void mangageActionBackNavigation({required dynamic store}){
+       print("mangageActionBackNavigation");
+       print(store.state.loginState);
+              switch (store.state.loginState) {
+                 case "register1":
+                   store.dispatch(loginActions.State1);
+                   break;
+                 case "register2":
+                    store.dispatch(loginActions.Register1);
+                    break;
+                 case "register3":
+                    store.dispatch(loginActions.Register2);
+                    break;
+                 case "password":
+                    store.dispatch(loginActions.State1);
+                    break;
+                 default:
+                    null;
+               }
+  }
+
   return StoreProvider<dynamic>(
       store: store,
       child: StoreConnector<dynamic, dynamic>(
@@ -18,6 +41,19 @@ Widget appBarWidgets({required context, required dynamic store}) {
                         color: Colors.white,
                       )),
                 ),
+                leading:
+                 (
+                  state.loginState!="email"
+                      ?
+                      IconButton(
+                           icon: const Icon(
+                               Icons.arrow_back_ios_new, color: Colors.white
+                           ),
+                           onPressed: () => mangageActionBackNavigation(store: store),
+                        )
+                      :
+                        null
+                      ),
                 actions: const[
                   SizedBox(),
                 ],
@@ -31,8 +67,20 @@ Widget appBarWidgets({required context, required dynamic store}) {
                       textStyle: const TextStyle(
                         color: Colors.white,
                       )),
-
                 ),
+                leading:
+                 (
+                  state.loginState!="email"
+                      ?
+                      IconButton(
+                           icon: const Icon(
+                               Icons.arrow_back_ios_new, color: Colors.white
+                           ),
+                           onPressed: () => mangageActionBackNavigation(store: store),
+                        )
+                      :
+                        null
+                  ),
                   actions: <Widget> [
                     Padding(
                         padding: const  EdgeInsets.only(top:5.00,right:5.00),

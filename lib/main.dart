@@ -39,13 +39,20 @@ class MyApp extends StatelessWidget {
               disabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(width: 2, color: Colors.transparent),
                 borderRadius: BorderRadius.circular(5),
-
               ),
-
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(width: 3, color: Colors.deepPurple),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(width: 2, color: Colors.red),
                 borderRadius: BorderRadius.circular(5),
-              )),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(width: 2, color: Color(0xFF455A64)),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(width: 2, color: Color(0xFF455A64)),
+                borderRadius: BorderRadius.circular(5),
+              )
+          ),
           brightness: Brightness.light,
           primarySwatch: Colors.deepPurple,
           appBarTheme: const AppBarTheme(
@@ -86,7 +93,7 @@ class MyApp extends StatelessWidget {
         title: 'TeamWeight',
         home: LoaderOverlay(
             useDefaultLoading: false,
-            overlayWidget: Center(
+            overlayWidget: const  Center(
               child: SpinKitFadingCircle(
                 color: Colors.deepPurple,
                 size: 100.0,

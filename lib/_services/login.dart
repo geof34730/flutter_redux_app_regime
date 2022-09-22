@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
-import 'package:regime_redux_v2/_models/user.dart';
 import 'dart:convert';
-import '../_class/loader.dart';
 import '../_state/store_user.dart';
 import '../_state/store_connect.dart';
 
@@ -20,7 +18,7 @@ class Login {
       store.dispatch(loginActions.State2);
     }
     else{
-      store.dispatch(loginActions.Register);
+      store.dispatch(loginActions.Register1);
     }
   }
 
@@ -58,7 +56,6 @@ class Login {
     final url = Uri.parse(urlEnv);
     final headers = {"Content-type": "application/json"};
     final json = '{"email": "$email","code":"$codereset"}';
-
     final response = await post(url, headers: headers, body: json);
     return jsonDecode(response.body);
   }

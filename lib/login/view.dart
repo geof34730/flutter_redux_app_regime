@@ -14,7 +14,6 @@ import 'widgets/accueil.dart';
 
 class LoginPage extends StatelessWidget {
   final Store<dynamic> store;
-
   LoginPage({
     required this.store,
     Key? key,
@@ -28,34 +27,49 @@ class LoginPage extends StatelessWidget {
         store: store,
         child:Scaffold(
             appBar:PreferredSize(
-                preferredSize: Size.fromHeight(60.0), // here the desired height
+                preferredSize: const Size.fromHeight(60.0), // here the desired height
                 child: appBarWidgets(context: context, store: store),
             ),
             drawer: (dotenv.get("DEBUG")=="true" ?  drawerWidget(context: context, store: store):null),
             endDrawer:drawerUser(context: context, store: store),
             //bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
-            body: SingleChildScrollView(
-            child: StoreConnector<dynamic, dynamic>(
-              converter: (store) => store.state.loginState,
-              builder: (context, loginState) {
-                switch (loginState) {
-                  case "email":
-                    returnWidget=loginFormState1(context: context, formKey: _formKey,store:store);
-                    break;
-                  case "password":
-                    returnWidget=loginFormState2(context: context, formKey: _formKey,store:store);
-                    break;
-                  case "register":
-                    returnWidget=register(context: context, formKey: _formKey,store:store);
-                    break;
-                  case "logged":
-                    returnWidget=accueil(context: context, formKey: _formKey,store:store);
-                    break;
-                }
-                return returnWidget;
-              },
-            ),
-          ))
+            body: LayoutBuilder(builder: (context, constraints) {
+                      return SingleChildScrollView(
+                          child: ConstrainedBox(
+                          constraints: BoxConstraints(minWidth: constraints.maxWidth, minHeight: constraints.maxHeight),
+                            child: IntrinsicHeight(
+                                child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:[
+                                      StoreConnector<dynamic, dynamic>(
+                                      converter: (store) => store.state.loginState,
+                                      builder: (context, loginState) {
+                                        switch (loginState) {
+                                          case "email":
+                                            returnWidget=loginFormState1(context: context,store:store);
+                                            break;
+                                          case "password":
+                                            returnWidget=loginFormState2(context: context,store:store);
+                                            break;
+                                          case "register1": case "register2": case "register3":
+                                            returnWidget=register(context: context, store:store);
+                                            break;
+                                          case "logged":
+                                            returnWidget=accueil(context: context,store:store);
+                                            break;
+                                        }
+                                        return returnWidget;
+                                      },
+                                    ),
+                                    ]
+                                  )
+                            )
+                          )
+                    );
+            })
+        )
     );
   }
 

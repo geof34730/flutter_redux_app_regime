@@ -8,10 +8,9 @@ import '../../_services/login.dart';
 
 class loginFormState1 extends StatefulWidget {
   final dynamic store;
-  final dynamic formKey;
   final dynamic context;
 
-  loginFormState1({Key? key,required this.context, required this.formKey, required this.store}) : super(key: key);
+  loginFormState1({Key? key,required this.context,  required this.store}) : super(key: key);
   @override
   _loginFormState1 createState() => _loginFormState1();
 
@@ -24,10 +23,10 @@ class _loginFormState1 extends State<loginFormState1>{
   @override
   void initState() {
     dynamic store = widget.store;
-    dynamic formKey = widget.formKey;
     dynamic context = widget.context;
     super.initState();
   }
+  final _formLoginState1 = GlobalKey<FormState>();
   final controllerPasswordLogin = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -37,22 +36,16 @@ class _loginFormState1 extends State<loginFormState1>{
         .width * 0.8;
     final controllerEmailLogin = TextEditingController();
     dynamic store=widget.store;
-    dynamic formKey=widget.formKey;
+
     return StoreProvider<dynamic>(
         store: store,
         child: Form(
-            key: formKey,
+            key: _formLoginState1,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxHeight: MediaQuery
-                              .of(context)
-                              .size
-                              .height - kToolbarHeight),
-                      child: Column(
+                     Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +96,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                 padding: const EdgeInsets.all(10),
                                 width: widthContainer,
                                 child: TextFormField(
-                                  controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
+                                  controller: controllerEmailLogin..text = 'geofdfrey.petain@gmail.com',
                                   decoration: const InputDecoration(
                                     icon: Icon(Icons.person),
                                     hintText: 'Saisissez votre Email',
@@ -120,7 +113,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                       children: [
                                         ElevatedButton.icon(
                                           onPressed: () {
-                                            if (formKey.currentState!.validate()) {
+                                            if (_formLoginState1.currentState!.validate()) {
                                                 Loader(context: context,snackBar: true).showLoader();
                                                 Login().sendEmailLogin(email: controllerEmailLogin.text, store: store).then((value) =>{
                                                     Loader(context: context,snackBar: true).hideLoader()
@@ -137,7 +130,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                         ),
                                       ])
                                 ]))
-                          ]))
+                          ])
                 ]
             )
         )

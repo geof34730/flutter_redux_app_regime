@@ -6,21 +6,16 @@ import '../../_services/login.dart';
 
 
 
-Widget accueil({required context, required formKey, required dynamic store}) {
+Widget accueil({required context, required dynamic store}) {
   double widthContainer = MediaQuery.of(context).size.width * 0.8;
   final controllerEmailLogin = TextEditingController();
   return StoreProvider<dynamic>(
       store: store,
-      child:Form(
-          key: formKey,
-          child: Row(
+      child:Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height-kToolbarHeight),
-                    child: Column(
+                  Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,9 +32,10 @@ Widget accueil({required context, required formKey, required dynamic store}) {
                                         height: 1.2)),
                                 textAlign: TextAlign.center),
                           ),
-                        ]))
+                        ]
+                  )
               ]
           )
-      )
+
   );
 }
