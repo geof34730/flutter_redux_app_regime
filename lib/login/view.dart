@@ -10,6 +10,7 @@ import 'widgets/loginFormState1.dart';
 import 'widgets/loginFormState2.dart';
 import 'widgets/register.dart';
 import 'widgets/accueil.dart';
+import 'dart:async';
 
 
 class LoginPage extends StatelessWidget {
@@ -32,7 +33,7 @@ class LoginPage extends StatelessWidget {
             ),
             drawer: (dotenv.get("DEBUG")=="true" ?  drawerWidget(context: context, store: store):null),
             endDrawer:drawerUser(context: context, store: store),
-            //bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
+            bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
             body: LayoutBuilder(builder: (context, constraints) {
                       return SingleChildScrollView(
                           child: ConstrainedBox(

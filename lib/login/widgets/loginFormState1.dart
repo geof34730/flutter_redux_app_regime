@@ -5,7 +5,7 @@ import 'package:regime_redux_v2/_class/loader.dart';
 import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../_services/login.dart';
-
+import 'dart:async';
 class loginFormState1 extends StatefulWidget {
   final dynamic store;
   final dynamic context;
@@ -96,7 +96,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                 padding: const EdgeInsets.all(10),
                                 width: widthContainer,
                                 child: TextFormField(
-                                  controller: controllerEmailLogin..text = 'geofdfrey.petain@gmail.com',
+                                  controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
                                   decoration: const InputDecoration(
                                     icon: Icon(Icons.person),
                                     hintText: 'Saisissez votre Email',

@@ -3,11 +3,7 @@ enum loginActions { State1, State2, Register1, Register2, Register3, Logged, Log
 
 dynamic ConnectUser(dynamic state, dynamic action) {
   switch (action) {
-    case loginActions.State1:
-      state="email";
-      break;
-
-    case loginActions.Logout:
+    case loginActions.State1: case loginActions.Logout:
       state="email";
       break;
 

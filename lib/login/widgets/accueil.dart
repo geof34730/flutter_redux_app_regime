@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../_services/login.dart';
-
+import 'dart:async';
 
 
 Widget accueil({required context, required dynamic store}) {

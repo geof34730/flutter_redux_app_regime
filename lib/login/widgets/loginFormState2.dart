@@ -8,7 +8,7 @@ import '../../_services/login.dart';
 import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:async';
 class loginFormState2 extends StatefulWidget {
   final dynamic store;
    loginFormState2({Key? key,required context, required this.store}) : super(key: key);
@@ -32,10 +32,13 @@ class _loginFormState2 extends State<loginFormState2> {
   bool sendService =false;
   String messageErrorPassword = '';
   List<TextEditingController> _controllers = [];
+  List<TextEditingController> _controllersInscription = [];
   List<bool> _enabledControllers = [];
-  dynamic controllerPasswordLogin = TextEditingController();
-  dynamic controllerPasswordLoginNew1;
-  dynamic controllerPasswordLoginNew2;
+  List<bool> _enabledControllersInscription = [];
+
+  TextEditingController controllerPasswordLogin = TextEditingController();
+  TextEditingController controllerPasswordLoginNew1= TextEditingController();
+  TextEditingController controllerPasswordLoginNew2= TextEditingController();
   @override
   void initState() {
     dynamic store = widget.store;
@@ -80,7 +83,7 @@ class _loginFormState2 extends State<loginFormState2> {
                               width: widthContainer,
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
-                                controller: controllerPasswordLogin..text,
+                                controller: controllerPasswordLogin..text = 'Hefpccy%08%08',
                                 obscureText: passwordEdit,
                                 decoration: InputDecoration(
                                   labelText: 'Mot de passe',
@@ -161,19 +164,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                               :
                                               () {
                                                   if (_formLoginState2.currentState!.validate()) {
-                                                    Loader(context: context,snackBar: true).showLoader();
-                                                    Login().sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
-                                                        {
-                                                        if(value['statut'] == "error"){
-                                                          Loader(context: context,snackBar: true).hideLoader(),
-                                                            setState(() {
-                                                              messageErrorPassword = value['messageError']!;
-                                                            })
-                                                        }
-                                                        else{
-                                                          Loader(context: context,snackBar: true).hideLoader(),
-                                                          }
-                                                        });
+                                                      sendLoginPassword(store: store,mail:"valideInscription");
                                                   }
                                                 }
                                           ),
@@ -199,9 +190,9 @@ class _loginFormState2 extends State<loginFormState2> {
                                 ),
                                 onPressed: () {
                                   Loader(context: context,snackBar: true).showLoader();
-                                  Login().sendEmailForgetPassword(email: store.state.user.email,store: store).then((value) {
+                                  Login().sendEmailForgetPassword(email: store.state.user.email,store: store,mail: "forgetPassword").then((value) {
                                     Loader(context: context,snackBar: true).hideLoader();
-                                      return _displayCodeInputDialog(
+                                      return _displayCodeForgetPasswordInputDialog(
                                           context: context,
                                           email: store.state.user.email,
                                           timerEnd: value["timeCodeValidate"],
@@ -223,6 +214,53 @@ class _loginFormState2 extends State<loginFormState2> {
                 ])));
   }
 
+
+
+
+  void sendLoginPassword({required dynamic store, required String mail}){
+   void functReturn;
+    Loader(context: context,snackBar: true).showLoader();
+    Login().sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
+        {
+        if(value['statut'] == "error"){
+          if(value['code']=="ULP2"){
+              Login().sendEmailForgetPassword(email: store.state.user.email,store: store,mail:mail).then((value) {
+                Loader(context: context,snackBar: true).hideLoader();
+                print(value);
+
+                (mail=="valideInscription"
+                  ?
+                    functReturn=_displayCodeValideInscriptionInputDialog(
+                      context: context,
+                      email: store.state.user.email,
+                      timerEnd: value["timeCodeValidate"],
+                      store: store
+                     )
+                  :
+                    functReturn=_displayCodeForgetPasswordInputDialog(
+                      context: context,
+                      email: store.state.user.email,
+                      timerEnd: value["timeCodeValidate"],
+                      store: store
+                     )
+                  );
+                  return functReturn;
+               })
+          }
+          else
+            {
+            Loader(context: context,snackBar: true).hideLoader(),
+            setState(() {
+                messageErrorPassword = value['messageError']!;
+              })
+            }
+        }
+        else{
+          Loader(context: context,snackBar: true).hideLoader(),
+          }
+        });
+  }
+
   void initControllerCode(){
     _controllers=[];
     _enabledControllers=[];
@@ -232,7 +270,16 @@ class _loginFormState2 extends State<loginFormState2> {
     }
   }
 
-  Future<void> _displayCodeInputDialog({required BuildContext context,required String email,required int timerEnd,required dynamic store}) async {
+  void initControllerCodeInscrition(){
+    _controllersInscription=[];
+    _enabledControllersInscription=[];
+    for(var i = 0; i < nbDigitCode; i++) {
+      _controllersInscription.add(TextEditingController());
+      _enabledControllersInscription.add(true);
+    }
+  }
+
+  Future<void> _displayCodeForgetPasswordInputDialog({required BuildContext context,required String email,required int timerEnd,required dynamic store}) async {
     initControllerCode();
       showDialog(
           context: context,
@@ -245,10 +292,15 @@ class _loginFormState2 extends State<loginFormState2> {
                       contentPadding: EdgeInsets.only(top: 20, left: 0, bottom: 20),
                       insetPadding: EdgeInsets.symmetric(horizontal: 0),
                       scrollable: true,
-                      title: Text(
-                          'Saisissez le code à 6 chiffres que nous vous avons envoyé sur ${email}.',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 16.0)),
+                      title:Container(
+                           width: 300.0,
+                           child:Text(
+                              'Saisissez le code à 6 chiffres que nous vous avons envoyé sur ${email}.',
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                              style: const TextStyle(fontSize: 16.0)
+                           )
+                      ),
                       content: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Form(
@@ -336,16 +388,16 @@ class _loginFormState2 extends State<loginFormState2> {
                                 children: [
                                   (sendService
                                       ?
-                                  const Padding(
-                                      padding: EdgeInsets.only(top: 8.0,bottom: 3.0),
-                                      child:SizedBox(
-                                        height:25.0,
-                                        width:25.0,
-                                        child:CircularProgressIndicator(),
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 8.0,bottom: 3.0),
+                                          child:SizedBox(
+                                            height:25.0,
+                                            width:25.0,
+                                            child:CircularProgressIndicator(),
+                                          )
                                       )
-                                  )
                                       :
-                                  Padding(
+                                      Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child:ElevatedButton(
                                       style:  ElevatedButton.styleFrom(
@@ -364,6 +416,197 @@ class _loginFormState2 extends State<loginFormState2> {
                                       child: const Text('Corriger'),
                                     ),
                                   )
+                                  )
+                                ],
+                              )
+                                  :
+                              const SizedBox(height: 36.00,)
+                              ),
+                              CompteurTimerResetPassword(timerEnd:timerEnd, context: context,titleText: "Temps restants pour saisir votre code :"),
+                              (errorCode ?
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(top: 8.0),
+                                      child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: const[
+                                                Icon(
+                                                    Icons.error,
+                                                    size: 19.0,
+                                                    color: Colors.red
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(left: 8.0),
+                                                  child: Text(
+                                                    "CODE INVALIDE",
+                                                    style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.red,
+                                                        fontSize: 12.0
+                                                    ),
+                                                    softWrap: true,
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ]
+                                      )
+                                  )
+                                ],
+                              )
+                                  :
+                              const SizedBox()
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+              );
+            }
+      );
+  }
+
+  Future<void> _displayCodeValideInscriptionInputDialog({required BuildContext context,required String email,required int timerEnd,required dynamic store}) async {
+    initControllerCodeInscrition();
+      showDialog(
+          context: context,
+          builder: (BuildContext context)
+            {
+              return StatefulBuilder(
+                  builder: (context, setState) {
+                    return AlertDialog(
+                      titlePadding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                      contentPadding: EdgeInsets.only(top: 20, left: 0, bottom: 20),
+                      insetPadding: EdgeInsets.symmetric(horizontal: 0),
+                      scrollable: true,
+                      title: Container(
+                           width: 300.0,
+                           child:Text(
+                              'C\'est votre première connexion, merci de saisir le code à 6 chiffres que nous vous avons envoyé sur ${email}, afin de valider votre inscription.',
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                              style: const TextStyle(fontSize: 16.0)
+                           )
+                      ),
+                      content: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    for(var i = 0; i < nbDigitCode; i++) SizedBox(
+                                      width: 40.0,
+                                      height: 40.0,
+                                      child: Padding(
+                                          padding: EdgeInsets.only(left: 10.0),
+                                          child: TextField(
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.digitsOnly
+                                            ],
+                                            autofocus: _enabledControllersInscription[i],
+                                            maxLength: 1,
+                                            enabled:_enabledControllersInscription[i],
+                                            textAlign: TextAlign.center,
+                                            decoration: const InputDecoration(
+                                                contentPadding: EdgeInsets.symmetric(vertical: 36.0),
+                                                counterText: ""
+                                            ),
+                                            controller: _controllersInscription[i],
+                                            onChanged: (content) {
+                                              if (content != "") {
+                                                corrigeCode=true;
+                                                if (i < nbDigitCode - 1) {
+                                                  setState(() {
+                                                    _enabledControllersInscription[i]=false;
+                                                    _enabledControllersInscription[i+1]=true;
+                                                  });
+                                                  FocusScope.of(context).nextFocus();
+                                                }
+                                                else {
+                                                  setState(() {
+                                                    _enabledControllersInscription[i]=false;
+                                                  });
+                                                  String codeSend = "";
+                                                  for (var i = 0; i < nbDigitCode; i++) {
+                                                    codeSend = codeSend + _controllersInscription[i].text;
+                                                  }
+                                                  if (codeSend.length == nbDigitCode) {
+                                                    sendService=true;
+                                                    Loader(context: context,snackBar: true).showLoader();
+                                                    Login().sendCodeValidationInscription(
+                                                        email: store.state.user.email,
+                                                        codevalidation: codeSend,
+                                                        store: store).then((value) {
+                                                      sendService=false;
+                                                      Loader(context: context,snackBar: true).hideLoader();
+                                                      if(value['code']=="UPCR2" || value['code']=="UPCR1"){
+                                                        setState(() {
+                                                          errorCode = true;
+                                                        });
+                                                      }
+                                                      else{
+                                                        Navigator.pop(context, true);
+                                                        sendLoginPassword(store: store, mail:"valideInscription");
+                                                      }
+                                                    });
+                                                  }
+                                                }
+                                              }
+                                            },
+                                          )
+                                      ),
+                                    ),
+                                  ]),
+                              (corrigeCode
+                                  ?
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  (sendService
+                                      ?
+                                      const Padding(
+                                          padding: EdgeInsets.only(top: 8.0,bottom: 3.0),
+                                          child:SizedBox(
+                                            height:25.0,
+                                            width:25.0,
+                                            child:CircularProgressIndicator(),
+                                          )
+                                      )
+                                      :
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0),
+                                        child:ElevatedButton(
+                                          style:  ElevatedButton.styleFrom(
+                                            textStyle: const TextStyle(fontSize: 12),
+                                            fixedSize:const Size(10.0,7.0),
+                                            padding: const EdgeInsets.only(left: 3.0, right: 3.0, top: 0.0, bottom: 0.0),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                            backgroundColor: Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            initControllerCodeInscrition();
+                                            errorCode=false;
+                                            corrigeCode=false;
+                                            setState(() {});
+                                          },
+                                          child: const Text('Corriger'),
+                                        ),
+                                      )
                                   )
                                 ],
                               )
@@ -598,8 +841,6 @@ class _loginFormState2 extends State<loginFormState2> {
                                         (){
                                           Loader(context: context,snackBar: true).showLoader();
                                           Login().sendForgetNewPassword(email: store.state.user.email, codereset: codereset, password: controllerPasswordLoginNew1.text, store: store).then((value) {
-                                            print('retoru');
-                                            print(value);
                                             setState((){
                                               confirmUpdatePassword=true;
                                             });

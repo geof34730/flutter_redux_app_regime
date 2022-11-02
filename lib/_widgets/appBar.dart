@@ -5,27 +5,25 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../_state/store_connect.dart';
 
 Widget appBarWidgets({required context, required dynamic store}) {
-
     void mangageActionBackNavigation({required dynamic store}){
-       print("mangageActionBackNavigation");
-       print(store.state.loginState);
-              switch (store.state.loginState) {
-                 case "register1":
-                   store.dispatch(loginActions.State1);
-                   break;
-                 case "register2":
-                    store.dispatch(loginActions.Register1);
-                    break;
-                 case "register3":
-                    store.dispatch(loginActions.Register2);
-                    break;
-                 case "password":
-                    store.dispatch(loginActions.State1);
-                    break;
-                 default:
-                    null;
-               }
-  }
+        switch (store.state.loginState) {
+           case "register1":
+             store.dispatch(loginActions.State1);
+
+             break;
+           case "register2":
+              store.dispatch(loginActions.Register1);
+              break;
+           case "register3":
+              store.dispatch(loginActions.Register2);
+              break;
+           case "password":
+              store.dispatch(loginActions.State1);
+              break;
+           default:
+              null;
+         }
+    }
 
   return StoreProvider<dynamic>(
       store: store,
@@ -35,7 +33,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
             if(state.loginState!="logged") {
               return AppBar(
                 title: Text(
-                  'TeamWeight',
+                  'TeamWeight   '+Localizations.localeOf(context).toString(),
                   style: GoogleFonts.pacifico(
                       textStyle: const TextStyle(
                         color: Colors.white,
@@ -70,7 +68,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
                 ),
                 leading:
                  (
-                  state.loginState!="email"
+                  state.loginState!="email" && state.loginState!="logged"
                       ?
                       IconButton(
                            icon: const Icon(

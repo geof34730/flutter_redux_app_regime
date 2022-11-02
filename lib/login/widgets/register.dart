@@ -1,16 +1,20 @@
+import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:regime_redux_v2/_models/user.dart';
-import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import '../../_state/store.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:date_field/date_field.dart';
+import '../../_models/user.dart';
+import '../../_services/login.dart';
 import '../../_state/store_connect.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
-import '../../_state/store_user.dart';
+
+
 class register extends StatefulWidget {
   final dynamic store;
   register({Key? key,required context,  required this.store}) : super(key: key);
@@ -19,23 +23,29 @@ class register extends StatefulWidget {
 }
 
 class _register extends State<register> {
-
-
   @override
   void initState() {
     dynamic store = widget.store;
     super.initState();
   }
   String valueRadio = '';
-  bool errorGenre=false;
-  int registerState=1;
   final _formRegister = GlobalKey<FormState>();
+  bool errorGenre=false;
+  bool passwordEditNew1 = true;
+  bool passwordEditNew2 = true;
+  bool passwordConfirmValueError=false;
+  bool passwordConfirmValidateForm=true;
+  bool passwordConfirmView=false;
   TextEditingController  controllerRegisterSize = TextEditingController();
   TextEditingController controllerRegisterDateBirth = TextEditingController();
   TextEditingController controllerRegisterPseudo= TextEditingController();
   TextEditingController controllerRegisterFirstName= TextEditingController();
   TextEditingController controllerRegisterLasttName= TextEditingController();
+  TextEditingController controllerPasswordLoginNew1= TextEditingController();
+  TextEditingController controllerPasswordLoginNew2= TextEditingController();
 
+  ImagePicker picker = ImagePicker();
+  String imageData = "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";
   @override
   Widget build(BuildContext context) {
     double widthContainer = MediaQuery.of(context).size.width * 0.8;
@@ -60,12 +70,14 @@ class _register extends State<register> {
                                         textStyle: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 30.00,
-                                            height: 1.2)),
-                                    textAlign: TextAlign.center)
+                                            height: 1.2)
+                                          ),
+                                    textAlign: TextAlign.center
+                                    )
                             ),
                             ContenaireFormRegister(
                                 widthContainer: widthContainer,
-                                content: Text("Etape $registerState/3",
+                                content: Text("Etape ${store.state.loginState.replaceAll("register", "")}/3",
                                     style:const TextStyle(
                                             color: Colors.black,
                                             fontSize: 14.00,
@@ -75,14 +87,15 @@ class _register extends State<register> {
                           StoreConnector<dynamic, dynamic>(
                                       converter: (store) => store.state.loginState,
                                          builder: (context, loginState) {
-                                         print("loginState");
-                                        print(loginState);
+                                          manageStateButtonSubmit(context: context,loginState: loginState);
                                            switch (loginState) {
                                              case "register1":
                                                 return formRegisterState1(widthContainer: widthContainer);
                                              case "register2":
-                                                return formRegisterState2(widthContainer: widthContainer);
+                                                return formRegisterState2(widthContainer: widthContainer, loginState: loginState);
                                              case "register3":
+                                                  passwordEditNew1=true;
+                                                  passwordEditNew2=true;
                                                 return formRegisterState3(widthContainer: widthContainer);
                                              default:
                                                 return formRegisterState1(widthContainer: widthContainer);
@@ -97,49 +110,55 @@ class _register extends State<register> {
                                   Row(mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ElevatedButton.icon(
-                                          onPressed: () {
-                                            errorGenre=(valueRadio=='');
-                                            if (_formRegister.currentState!.validate() && valueRadio!='' ) {
-                                              if(registerState==1) {
-                                                store.dispatch(
-                                                    SetRegisterState1(
-                                                        user: Userdata(
-                                                            uuid: null,
-                                                            pseudo: controllerRegisterPseudo.text,
-                                                            firstname: controllerRegisterFirstName.text,
-                                                            lastname: controllerRegisterLasttName.text,
-                                                            email: store.state.user.email,
-                                                            profil: "familyadmin",
-                                                            datenaissance: controllerRegisterDateBirth.text,
-                                                            sexe: valueRadio,
-                                                            taille: 186,
-                                                            imageprofil: null,
-                                                            uuidfamillyadmin: "uuidfamillyadmin",
-                                                            token: null
-                                                        )
-                                                    ));
-                                                    store.dispatch(loginActions.Register2);
-                                                    setState(() {
-                                                      registerState=2;
-                                                    });
-                                              }
-                                              if(registerState==2) {
-                                                print("go register 2" +controllerRegisterDateBirth.text);
-                                                store.dispatch(loginActions.Register3);
-                                                  setState(() {
-                                                  registerState=3;
-                                                });
-                                              }
-                                               if(registerState==3) {
-                                                  print("terminé");
-                                                }
-                                            }
-                                            else{
-                                              setState(() {
+                                          onPressed:
+                                            (!passwordConfirmValidateForm
+                                              ?
+                                              null
+                                              :
+                                              () {
+                                                      errorGenre=(valueRadio=='');
+                                                      if (_formRegister.currentState!.validate() && valueRadio!='' ) {
+                                                        if(store.state.loginState=="register1") {
+                                                              setState(() {
+                                                                passwordConfirmValidateForm=false;
+                                                                store.dispatch(loginActions.Register2);
+                                                              });
 
-                                              });
-                                            }
-                                          },
+                                                        }
+                                                        else{
+                                                          if(store.state.loginState=="register2") {
+                                                            store.dispatch(loginActions.Register3);
+                                                          }
+                                                          else{
+                                                             if(store.state.loginState=="register3") {
+                                                                Login().register(
+                                                                     userDataRegister: Userdata(
+                                                                      uuid: null,
+                                                                      pseudo: controllerRegisterPseudo.text,
+                                                                      firstname: controllerRegisterFirstName.text,
+                                                                      lastname: controllerRegisterLasttName.text,
+                                                                      email: store.state.user.email,
+                                                                      profil: "familyadmin",
+                                                                      datenaissance: controllerRegisterDateBirth.text,
+                                                                      sexe: valueRadio,
+                                                                      taille: 186,
+                                                                      imageprofil: imageData,
+                                                                      uuidfamillyadmin: "uuidfamillyadmin",
+                                                                      token: null
+                                                                  ),
+                                                                  passwordRegister: controllerPasswordLoginNew1.text
+                                                                );
+                                                              }
+                                                          }
+                                                        }
+                                                      }
+                                                      else{
+                                                        setState(() {
+
+                                                        });
+                                                      }
+                                                    }
+                                          ),
                                           icon: const Icon(
                                             Icons.check,
                                             size: 19.0,
@@ -153,7 +172,7 @@ class _register extends State<register> {
                             ),
                           ])
                 ])));
-      }
+  }
 
   Row RadioButton({required String value,required String libelRadio,required BuildContext context, required String valueRadioWidget,}){
     return Row(
@@ -331,13 +350,12 @@ class _register extends State<register> {
                 DateTime? pickedDate = await showDatePicker(
                     context: context, initialDate: DateTime.now(),
                     firstDate: DateTime(1900), //DateTime.now() - not to allow to choose before today.
-                    lastDate: DateTime(2101)
+                    lastDate: DateTime(2101),
+                    //initialDatePickerMode: DatePickerMode.year,
+                  initialEntryMode: DatePickerEntryMode.input
                 );
                 if(pickedDate != null ){
-                  print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
                   String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
-                  print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                  //you can implement different kind of Date Format here according to your requirement
                   setState(() {
                     controllerRegisterDateBirth.text = formattedDate; //set output date to TextField value.
                   });
@@ -351,48 +369,224 @@ class _register extends State<register> {
     );
   }
 
-  Widget formRegisterState2({required double widthContainer}){
+  Widget formRegisterState2({required double widthContainer, required dynamic loginState}){
     return Column(
         children:[
           ContenaireFormRegister(
               widthContainer: widthContainer,
               content: TextFormField(
-                //controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
-                decoration: const InputDecoration(
-                  icon: Icon(Icons.key),
-                  hintText: 'Mot de passe',
-                  labelText: 'Mot de passe',
-                ),
-                validator: (val) => val!='' ? "Merci de saisir votre mot de passe" : null,
-              )
+                            keyboardType: TextInputType.text,
+                            controller: controllerPasswordLoginNew1..text = 'Hefpccy%08%08',
+                            onChanged: (value) {
+                              setState(() {
+                                passwordConfirmValueError = checkLiveValueConfirmationPassword(
+                                    valuePassword: controllerPasswordLoginNew1.text,
+                                    valuePasswordCheck: controllerPasswordLoginNew2.text
+                                );
+                                passwordConfirmValidateForm = checkValueConfirmationPasswordForSubmit(
+                                    valuePassword: controllerPasswordLoginNew1.text,
+                                    valuePasswordCheck: controllerPasswordLoginNew2.text
+                                );
+                              });
+                            },
+                            obscureText: passwordEditNew1,
+                            decoration: InputDecoration(
+                                labelText: 'Nouveau mot de passe',
+                                hintText: 'Saisissez votre nouveau mot de passe',
+                                //icon: Icon(Icons.key),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    // Based on passwordVisible state choose the icon
+                                    passwordEditNew1
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                                  onPressed: () {
+                                    passwordEditNew1 = !passwordEditNew1;
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ),
           ),
-          ContenaireFormRegister(
-            widthContainer: widthContainer,
-            content:TextFormField(
-              //controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
-              decoration: const InputDecoration(
-                icon: Icon(Icons.key),
-                hintText: 'Confirmation mot de passe',
-                labelText: 'Confirmation mot de passe',
-              ),
+            (passwordConfirmView
+                ?
+                ContenaireFormRegister(
+                  widthContainer: widthContainer,
+                  content: TextFormField(
+                              keyboardType: TextInputType.text,
+                              controller: controllerPasswordLoginNew2..text = 'Hefpccy%08%08',
+                              obscureText: passwordEditNew2,
+                              style: TextStyle(color: (passwordConfirmValueError ? Colors.red : Colors.black)),
+                              onChanged: (value) {
+                                setState(() {
+                                  manageStateButtonSubmit(context: context,loginState: loginState);
+                                });
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Confirmation nouveau mot de passe',
+                                hintText: 'Confirmer votre nouveau mot de passe',
+                                //icon: Icon(Icons.key),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    // Based on passwordVisible state choose the icon
+                                    passwordEditNew2
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Theme.of(context).primaryColorDark,
+                                  ),
+                                  onPressed: () {
+                                    passwordEditNew2 = !passwordEditNew2;
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ),
+                )
+                :
+                SizedBox()
             ),
-          )
+           ContenaireFormRegister(
+                    widthContainer: widthContainer,
+                    content: FlutterPwValidator(
+                              controller: controllerPasswordLoginNew1,
+                              minLength: 6,
+                              uppercaseCharCount: 1,
+                              numericCharCount: 3,
+                              specialCharCount: 1,
+                              width: 400,
+                              height: 110,
+                              onSuccess: () {
+                                setState(() {
+                                  passwordConfirmView = true;
+                                });
+                              },
+                              onFail: () {
+                                setState(() {
+                                  passwordConfirmView = false;
+                                });
+                              },
+                            )
+           )
         ]
     );
   }
+  bool modifyProfile=true;
 
   Widget formRegisterState3({required double widthContainer}){
     return Column(
         children:[
           ContenaireFormRegister(
               widthContainer: widthContainer,
-              content: Text("etape 3")
+              content:Column(children: [
+                 const Padding(
+                  padding: EdgeInsets.only(top: 16.00),
+                  child: Text(
+                    "Votre photo de profil",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.00
+                    ),
+                  ),
+                ),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 5.00),
+                  child:CircleAvatar(
+                      radius: 100.00,
+                      backgroundImage:  Image.memory(base64Decode(imageData)).image,
+                    ),
+                ),
+                 Padding(
+                  padding: const EdgeInsets.only(top: 3.00),
+                  child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                          const SizedBox(
+                           height:5.00
+                         ),
+                          ElevatedButton.icon(
+                            icon: const Icon(
+                              Icons.file_open,
+                              size: 18.0,
+                            ),
+                            label: const Text("Télécharger une photo dans ma bibliothèque", style: TextStyle(fontSize: 10)),
+                            onPressed: () {
+                              pickImage(source: ImageSource.gallery);
+                            },
+                          ),
+                          SizedBox(height:10.0),
+                          ElevatedButton.icon(
+                            icon: const Icon(
+                              Icons.camera_alt_outlined,
+                              size: 18.0,
+                            ),
+                            label: const Text("Prendre un photo", style: TextStyle(fontSize: 10)),
+                            onPressed: () {
+                              pickImage(source: ImageSource.camera);
+                            },
+                          ),
+                          const SizedBox(
+                           height:20.00
+                         ),
+                      ]
+                 )
+                )
+              ])
           ),
         ]
     );
   }
 
+  Future pickImage({required ImageSource source}) async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    final XFile? chosenImage = await _picker.pickImage(source: source);
+    if (chosenImage == null) {
+      print("Nous n'avons pas pu récupérer d'image");
+    } else {
+      ImageProperties properties=await FlutterNativeImage.getImageProperties(chosenImage.path);
+      dynamic largeurNew = 400;
+      dynamic largeurImg = properties.width;
+      dynamic hauteurImg = properties.height;
+      dynamic compressedFile = await FlutterNativeImage.compressImage(
+          chosenImage.path,
+          quality: 100,
+          targetWidth: largeurNew,
+          targetHeight: (hauteurImg * largeurNew / largeurImg).round());
+      final bytes = compressedFile.readAsBytesSync();
+      imageData = base64Encode(bytes);
+      setState(() {});
+    }
+    
+
+  }
+
+  void manageStateButtonSubmit({required BuildContext context,required dynamic loginState}) {
+    if(loginState=="register2") {
+        passwordConfirmValueError = checkLiveValueConfirmationPassword(
+            valuePassword: controllerPasswordLoginNew1.text,
+            valuePasswordCheck: controllerPasswordLoginNew2.text
+        );
+        passwordConfirmValidateForm = checkValueConfirmationPasswordForSubmit(
+            valuePassword: controllerPasswordLoginNew1.text,
+            valuePasswordCheck: controllerPasswordLoginNew2.text
+        );
+
+    }
+  }
 }
 
+bool checkLiveValueConfirmationPassword({required String valuePassword, required String valuePasswordCheck}){
+  if(valuePasswordCheck.length>valuePassword.length){
+    return true;
+  }
+  return valuePassword.substring(0, valuePasswordCheck.length)!=valuePasswordCheck;
+}
 
-
+bool checkValueConfirmationPasswordForSubmit({required String valuePassword, required String valuePasswordCheck}){
+  if(valuePassword==""){
+    return false;
+  }
+  return valuePassword==valuePasswordCheck;
+}

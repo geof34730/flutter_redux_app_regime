@@ -4,9 +4,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:redux/redux.dart';
+import 'dart:async';
 import '_state/appState.dart';
 import '_state/store.dart';
 import 'login/view.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -18,11 +20,24 @@ Future main() async {
 class MyApp extends StatelessWidget {
   MyApp({Key? key, required this.store}) : super(key: key);
   final Store<dynamic> store;
+
+
   @override
   Widget build(BuildContext context) {
     return StoreProvider<dynamic>(
       store: store,
       child: MaterialApp(
+         localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', 'FR'),
+            Locale('es', 'ES'),
+            Locale('uk', 'UK'),
+            // Spanish, no country code
+          ],
         debugShowCheckedModeBanner: (dotenv.get("DEBUG")=="true" ?  false : false),
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(

@@ -59,7 +59,7 @@ class Userdata {
         uuidfamillyadmin = map["uuidfamillyadmin"],
         token = map["token"];
 
-  dynamic toJson(globalStata) {
+  dynamic toJson(globalState) {
     return {
       "uuid":uuid,
       "pseudo":pseudo,
@@ -70,7 +70,7 @@ class Userdata {
       "datenaissance":datenaissance,
       "sexe":sexe,
       "taille":taille,
-      "imageprofil":(globalStata ? imageprofil: imageprofil?.substring(0, 50)),
+      "imageprofil":(globalState ? imageprofil: imageprofil?.substring(0, 50)),
       "uuidfamillyadmin":uuidfamillyadmin,
       "token":token
     };
