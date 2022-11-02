@@ -83,7 +83,7 @@ class _loginFormState2 extends State<loginFormState2> {
                               width: widthContainer,
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
-                                controller: controllerPasswordLogin..text = 'Hefpccy%08%08',
+                                controller: controllerPasswordLogin..text,
                                 obscureText: passwordEdit,
                                 decoration: InputDecoration(
                                   labelText: 'Mot de passe',
