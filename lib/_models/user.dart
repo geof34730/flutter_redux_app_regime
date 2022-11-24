@@ -5,7 +5,7 @@ class Userdata {
   late String? pseudo;
   late String? firstname;
   late String? lastname;
-  late  String? email;
+  late String? email;
   late String? profil;
   late String? datenaissance;
   late String? sexe;
@@ -13,6 +13,9 @@ class Userdata {
   late String? imageprofil;
   late String? uuidfamillyadmin;
   late String? token;
+  late List<Userdata>? usersFamily;
+  late List<dynamic>? usersFamilyGlobalState;
+
 
   Userdata({
     required this.uuid,
@@ -27,6 +30,8 @@ class Userdata {
     required this.imageprofil,
     required this.uuidfamillyadmin,
     required this.token,
+    required this.usersFamily,
+    required this.usersFamilyGlobalState
   });
 
   factory Userdata.initial() => Userdata(
@@ -41,7 +46,9 @@ class Userdata {
       taille:null,
       imageprofil:null,
       uuidfamillyadmin:null,
-      token:null
+      token:null,
+      usersFamily:null,
+      usersFamilyGlobalState:null
 
   );
 
@@ -57,7 +64,11 @@ class Userdata {
         taille = map["taille"],
         imageprofil = map["imageprofil"],
         uuidfamillyadmin = map["uuidfamillyadmin"],
-        token = map["token"];
+        token = map["token"],
+        usersFamily = map["usersFamily"],
+        usersFamilyGlobalState =  map["usersFamilyGlobalState"];
+
+
 
   dynamic toJson(globalState) {
     return {
@@ -72,13 +83,13 @@ class Userdata {
       "taille":taille,
       "imageprofil":(globalState ? imageprofil: imageprofil?.substring(0, 50)),
       "uuidfamillyadmin":uuidfamillyadmin,
-      "token":token
+      "token":token,
+      "usersFamily":usersFamily.toString(),
+      "usersFamilyGlobalState":usersFamilyGlobalState
     };
   }
 
   updateEmail(String Email){
-    print("update email");
-    print(email);
     email=Email;
   }
 
@@ -95,9 +106,23 @@ class Userdata {
     imageprofil=null;
     token=null;
     uuidfamillyadmin=null;
+    usersFamily=null;
+    usersFamilyGlobalState=null;
   }
 
   saveUser(dynamic user){
+    List<Userdata> listUsersFamily=[];
+    List<dynamic> listUsersFamilyGlobalSTate=[];
+    for (var i = 0; i < user["usersFamily"].length; i++) {
+      listUsersFamily.add(Userdata.fromMap(user["usersFamily"][i]));
+    }
+
+    for(var item in user["usersFamily"] ){
+      dynamic tmpImageProfil=item['imageprofil'];
+      item['imageprofil']=tmpImageProfil.substring(0, 50);
+      listUsersFamilyGlobalSTate.add(item);
+    }
+
     uuid = user["uuid"];
     pseudo = user["pseudo"];
     firstname = user["firstname"];
@@ -110,6 +135,8 @@ class Userdata {
     imageprofil = user["imageprofil"].toString();
     uuidfamillyadmin = user["uuidfamillyadmin"];
     token = user["token"];
+    usersFamily = listUsersFamily;
+    usersFamilyGlobalState = listUsersFamilyGlobalSTate;
   }
 
 
@@ -126,6 +153,7 @@ class Userdata {
     imageprofil=user.imageprofil;
     token=user.token;
     uuidfamillyadmin=user.uuidfamillyadmin;
+    usersFamily=user.usersFamily;
   }
 
 }

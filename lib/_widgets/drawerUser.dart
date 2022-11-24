@@ -17,7 +17,6 @@ Widget drawerUser({required context, required dynamic store}) {
               return Drawer(
                 child: ListView(
                   padding: EdgeInsets.zero,
-
                   children: <Widget>[
                     Container(
                         margin: const EdgeInsets.only(bottom:0.0),
@@ -71,7 +70,7 @@ Widget drawerUser({required context, required dynamic store}) {
                               crossAxisAlignment: WrapCrossAlignment.start,
                               spacing: 20.0,
                               children:[
-                                Row(
+                                 for(var item in store.state.user.usersFamily ) Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children:[
                                       Padding(
@@ -80,7 +79,7 @@ Widget drawerUser({required context, required dynamic store}) {
                                         child: CircleAvatar(
                                           radius: 25.00,
                                           backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
+                                              base64.decode(item.imageprofil))
                                               .image,
                                         ),
                                       ),
@@ -89,169 +88,7 @@ Widget drawerUser({required context, required dynamic store}) {
                                             left: 5.00,right: 15.00, top: 15.0,bottom: 25.0,),
                                           child: Column(
                                               children: [
-                                                Text(state.user.pseudo,
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                              ])
-                                      ),
-                                    ]
-                                ),
-
-                                Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 15.0, ),
-                                        child: CircleAvatar(
-                                          radius: 25.00,
-                                          backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
-                                              .image,
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5.00, top: 15.0,bottom: 25.0,),
-                                          child: Column(
-                                              children: [
-                                                Text(state.user.pseudo,
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                              ])
-                                      ),
-                                    ]
-                                ),
-
-                                Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 15.0, ),
-                                        child: CircleAvatar(
-                                          radius: 25.00,
-                                          backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
-                                              .image,
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5.00, top: 15.0,bottom: 25.0,),
-                                          child: Column(
-                                              children: [
-                                                Text(state.user.pseudo,
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                              ])
-                                      ),
-                                    ]
-                                ),
-
-                                Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 15.0, ),
-                                        child: CircleAvatar(
-                                          radius: 25.00,
-                                          backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
-                                              .image,
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5.00, top: 15.0,bottom: 25.0,),
-                                          child: Column(
-                                              children: [
-                                                Text(state.user.pseudo,
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                              ])
-                                      ),
-                                    ]
-                                ),
-
-                                Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 15.0, ),
-                                        child: CircleAvatar(
-                                          radius: 25.00,
-                                          backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
-                                              .image,
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5.00, top: 15.0,bottom: 25.0,),
-                                          child: Column(
-                                              children: [
-                                                Text(state.user.pseudo,
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                              ])
-                                      ),
-                                    ]
-                                ),
-
-                                Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 15.0, ),
-                                        child: CircleAvatar(
-                                          radius: 25.00,
-                                          backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
-                                              .image,
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5.00, top: 15.0,bottom: 25.0,),
-                                          child: Column(
-                                              children: [
-                                                Text(state.user.pseudo,
-                                                    style: const TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                        color: Colors.black)),
-                                              ])
-                                      ),
-                                    ]
-                                ),
-
-                                Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children:[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 15.0, ),
-                                        child: CircleAvatar(
-                                          radius: 25.00,
-                                          backgroundImage: Image.memory(
-                                              base64.decode(state.user.imageprofil))
-                                              .image,
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5.00, top: 15.0,bottom: 25.0,),
-                                          child: Column(
-                                              children: [
-                                                Text(state.user.pseudo,
+                                                Text(item.pseudo,
                                                     style: const TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         color: Colors.black)),

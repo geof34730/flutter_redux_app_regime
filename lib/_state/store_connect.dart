@@ -1,5 +1,5 @@
 
-enum loginActions { State1, State2, Register1, Register2, Register3, Logged, Logout}
+enum loginActions { State1, State2, Register1, Register2, Register3, Register4, Logged, Logout}
 
 dynamic ConnectUser(dynamic state, dynamic action) {
   switch (action) {
@@ -21,6 +21,10 @@ dynamic ConnectUser(dynamic state, dynamic action) {
 
     case loginActions.Register3:
       state="register3";
+      break;
+
+    case loginActions.Register4:
+      state="register4";
       break;
 
     case loginActions.Logged:

@@ -73,6 +73,7 @@ class Login {
 
   Future<dynamic> register({required Userdata userDataRegister,required String passwordRegister}) async {
     String urlEnv= "${dotenv.get("URL_API")}/user/register";
+    print(userDataRegister.datenaissance);
     final url = Uri.parse(urlEnv);
     final headers = {"Content-type": "application/json;charset=utf-8"};
     final json = '{'
@@ -88,7 +89,6 @@ class Login {
         '}';
     final response = await post(url, headers: headers, body: json);
     return jsonDecode(response.body);
-
   }
 
   Future<dynamic> sendCodeValidationInscription({required String email,required String codevalidation, required dynamic store}) async {

@@ -9,33 +9,35 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
-            return ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
+            return Material(
+              child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
                 SizedBox(
                   height: 75,
-                  child: DrawerHeader(
-                    decoration: BoxDecoration(
+                   child: Container(
+                     height:75.00,
+                      decoration: const BoxDecoration(
                       color: Colors.red,
                     ),
-                    child: Row(children: [
-                      IconButton(
-                        icon: new Icon(
-                          Icons.close_rounded,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          print('close drawer');
-                          Scaffold.of(context).closeDrawer();
-                        },
-                      ),
-                      Text(
-                        'DEBUG TOOLS GEOFFREY  ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
+                    child: Row(
+                        children: [
+                          IconButton(
+                            icon: const  Icon(
+                              Icons.close_rounded,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                            },
+                          ),
+                           Text(
+                              'DEBUG TOOLS GEOFFREY',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
                     ]),
                   ),
                 ),
@@ -44,7 +46,7 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
                   color: Colors.black,
                   padding: const EdgeInsets.all(20.00),
                   child: ColoredJson(
-                    data: '[' + jsonEncode(state.globalState) + ']',
+                    data:  '[${jsonEncode(state.globalState)}]',
                     indentLength: 10,
                     keyColor: Colors.green,
                     backgroundColor: Colors.black,
@@ -64,6 +66,6 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
                   ),
                 )),
               ],
-            );
+              ));
           }));
 }

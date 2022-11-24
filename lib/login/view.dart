@@ -31,7 +31,6 @@ class LoginPage extends StatelessWidget {
                 preferredSize: const Size.fromHeight(60.0), // here the desired height
                 child: appBarWidgets(context: context, store: store),
             ),
-            drawer: (dotenv.get("DEBUG")=="true" ?  drawerWidget(context: context, store: store):null),
             endDrawer:drawerUser(context: context, store: store),
             bottomNavigationBar: bottomNavigationBarWidgets(context: context, store: store),
             body: LayoutBuilder(builder: (context, constraints) {
@@ -73,6 +72,5 @@ class LoginPage extends StatelessWidget {
         )
     );
   }
-
 }
 

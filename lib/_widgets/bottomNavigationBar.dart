@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../_state/store_user.dart';
 import '../_state/store_connect.dart';
+import 'drawerDevTools.dart';
 
 Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
   return StoreProvider<dynamic>(
@@ -11,45 +12,76 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
-            if(state.loginState!="logged"){
-              return SizedBox();
+           return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.min,
+               children:[
+                  Row(
+                     mainAxisSize: MainAxisSize.max,
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children:[
+                        Container(
+                            height: 60,
+                            width:MediaQuery.of(context).size.width * (state.loginState=="logged" ? 0.50 : 1),
+                            color: Colors.black12,
+                            child: InkWell(
+                              onTap: () =>  showDialog(
+                                          context: context,
+                                          builder: (BuildContext context)
+                                              {
+                                                return drawerWidget(context: context, store: store);
+                                              }
+                                          ),
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.javascript_sharp,
+                                      color: Theme.of(context).accentColor,
+                                    ),
+                                    const Text(
+                                      'Debug Tools',
+                                      style:TextStyle(
+                                        fontWeight: FontWeight.bold
+                                      )
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        ),
+                        if(state.loginState=="logged")Container(
+                            height: 60,
+                            width:MediaQuery.of(context).size.width * 0.50,
+                            color: Colors.black12,
+                            child: InkWell(
+                              onTap: () =>  {
+                                Scaffold.of(context).closeEndDrawer(),
+                                store.dispatch(loginActions.Logout)
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 8.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.logout,
+                                      color: Theme.of(context).accentColor,
+                                    ),
+                                    const Text('Déconnexion',
+                                      style:TextStyle(
+                                        fontWeight: FontWeight.bold
+                                      )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                        )
+                    ]
+                 )
+               ]);
             }
-            else {
-              return BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.group),
-                    label: 'Ma Team',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle_outlined),
-                    label: 'Mon Profil',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.logout),
-                    label: 'Déconnexion',
-                  ),
-                ],
-                currentIndex: 0,
-                selectedItemColor: Colors.deepPurple,
-                onTap: (int index) {
-                  switch (index) {
-                    case 0:
-                      print("navigate to Ma team");
-                      break;
-                    case 1:
-                      print("navigate to Mon profil");
-                      break;
-                    case 2:
-                      Scaffold.of(context).closeEndDrawer();
-                      store.dispatch(loginActions.Logout);
-                      break;
-                  }
-                  ;
-                },
-              );
-            }
-          }
+          //}
       ));
 }
 

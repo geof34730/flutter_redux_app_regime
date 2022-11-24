@@ -9,7 +9,6 @@ Widget appBarWidgets({required context, required dynamic store}) {
         switch (store.state.loginState) {
            case "register1":
              store.dispatch(loginActions.State1);
-
              break;
            case "register2":
               store.dispatch(loginActions.Register1);
@@ -19,6 +18,8 @@ Widget appBarWidgets({required context, required dynamic store}) {
               break;
            case "password":
               store.dispatch(loginActions.State1);
+              break;
+
               break;
            default:
               null;
@@ -41,16 +42,16 @@ Widget appBarWidgets({required context, required dynamic store}) {
                 ),
                 leading:
                  (
-                  state.loginState!="email"
+                  state.loginState=="email"
                       ?
-                      IconButton(
+                      null
+                      :
+                         IconButton(
                            icon: const Icon(
                                Icons.arrow_back_ios_new, color: Colors.white
                            ),
                            onPressed: () => mangageActionBackNavigation(store: store),
                         )
-                      :
-                        null
                       ),
                 actions: const[
                   SizedBox(),
@@ -96,7 +97,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
                                     alignment: Alignment.bottomRight,
                                     child: Icon(
                                         Icons.arrow_drop_down_outlined,
-                                        size:18.0
+                                        size:12.0
                                     ),
                                   )
                                 ],
