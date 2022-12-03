@@ -19,8 +19,26 @@ Widget appBarWidgets({required context, required dynamic store}) {
            case "password":
               store.dispatch(loginActions.State1);
               break;
-
+           case "logged-add-user-1":
+              store.dispatch(loginActions.Logged);
               break;
+           case "logged-add-user-2":
+              store.dispatch(loginActions.LoggedAddUser1);
+              break;
+
+           case "logged-edit-user-1":
+              store.dispatch(loginActions.Logged);
+              break;
+           case "logged-edit-user-2":
+              store.dispatch(loginActions.LoggedEditUser1);
+              break;
+
+
+
+           case "logged-view-poids":
+              store.dispatch(loginActions.Logged);
+              break;
+
            default:
               null;
          }

@@ -99,4 +99,30 @@ class Login {
     final response = await post(url, headers: headers, body: json);
     return jsonDecode(response.body);
   }
+
+  Future<dynamic> addUserTeam({required Userdata userDataRegister,required dynamic store, required bool edit}) async {
+    String urlEnv= "${dotenv.get("URL_API")}/user/userteamadd";
+    final url = Uri.parse(urlEnv);
+    final headers = {
+      "Content-type": "application/json;charset=utf-8",
+      "Authorization":"${userDataRegister.token}"
+    };
+    final json = '{'
+        '"edit": "${edit}",'
+        '"uuid": "${userDataRegister.uuid}",'
+        '"email": "${userDataRegister.email}",'
+        '"lastname":"${userDataRegister.lastname}",'
+        '"firstname":"${userDataRegister.firstname}",'
+        '"pseudo":"${userDataRegister.pseudo}",'
+        '"imageprofil":"${userDataRegister.imageprofil}",'
+        '"datenaissance":"${userDataRegister.datenaissance}",'
+        '"sexe":"${userDataRegister.sexe}",'
+        '"taille":"${userDataRegister.taille}",'
+        '"uuidfamillyadmin":"${userDataRegister.uuidfamillyadmin}"'
+        '}';
+    final response = await post(url, headers: headers, body: json);
+    store.dispatch(SetUserConnectedLoginAction(jsonDecode(response.body)['user']));
+    return jsonDecode(response.body);
+  }
+
 }

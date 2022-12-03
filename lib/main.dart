@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 import 'dart:async';
 import '_state/appState.dart';
 import '_state/store.dart';
-import 'login/view.dart';
+import 'view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future main() async {
@@ -38,11 +38,11 @@ class MyApp extends StatelessWidget {
             Locale('uk', 'UK'),
             // Spanish, no country code
           ],
-        debugShowCheckedModeBanner: (dotenv.get("DEBUG")=="true" ?  false : false),
+        debugShowCheckedModeBanner: (dotenv.get("DEBUG")=="true" ?  true : false),
         theme: ThemeData(
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: TextButton.styleFrom(
-              padding: EdgeInsets.only(left: 20.0, right: 20.0, top: 15.00, bottom: 15.0),
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 15.00, bottom: 15.0),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
           ),

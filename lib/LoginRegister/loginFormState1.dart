@@ -4,7 +4,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:regime_redux_v2/_class/loader.dart';
 import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import '../../_services/login.dart';
+import '../_services/login.dart';
 import 'dart:async';
 class loginFormState1 extends StatefulWidget {
   final dynamic store;

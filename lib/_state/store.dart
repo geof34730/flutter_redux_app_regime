@@ -6,8 +6,6 @@ import '../main.dart';
 
 
 AppState appStateReducer(AppState state, action){
-  (dotenv.get("DEBUG")=="true" &&  printAppState(state: state));
-
   return AppState(
     loginState: ConnectUser(state.loginState, action),
     user:dataUser(state.user, action),
@@ -15,11 +13,5 @@ AppState appStateReducer(AppState state, action){
   );
 }
 
-bool printAppState({required AppState state}){
-      /*print('***************** globalState ****************');
-        print(state.globalState);
-      print('***************** END globalState ****************');
-*/
 
-  return true;
-}
+

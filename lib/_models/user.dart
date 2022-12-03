@@ -9,7 +9,7 @@ class Userdata {
   late String? profil;
   late String? datenaissance;
   late String? sexe;
-  late int? taille;
+  late String? taille;
   late String? imageprofil;
   late String? uuidfamillyadmin;
   late String? token;

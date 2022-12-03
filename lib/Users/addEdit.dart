@@ -13,37 +13,38 @@ import '../../_services/login.dart';
 import '../../_state/store_connect.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
+import '../_class/stringCommon.dart';
 
 
-
-class register extends StatefulWidget {
+class usersAddEdit extends StatefulWidget {
   final dynamic store;
-  register({Key? key,required context,  required this.store}) : super(key: key);
+  final bool edit;
+
+  usersAddEdit({Key? key,required context,  required this.store, required this.edit}) : super(key: key);
   @override
-  _register createState() => _register();
+  _usersAddEdit createState() => _usersAddEdit();
 }
 
-class _register extends State<register> {
+class _usersAddEdit extends State<usersAddEdit> {
   @override
   void initState() {
     dynamic store = widget.store;
+    bool edit = widget.edit;
     super.initState();
   }
   String valueRadio = '';
   final _formRegister = GlobalKey<FormState>();
   bool errorGenre=false;
-  bool passwordEditNew1 = true;
-  bool passwordEditNew2 = true;
-  bool passwordConfirmValueError=false;
-  bool passwordConfirmValidateForm=true;
-  bool passwordConfirmView=false;
+
   TextEditingController  controllerRegisterSize = TextEditingController();
   TextEditingController controllerRegisterDateBirth = TextEditingController();
   TextEditingController controllerRegisterPseudo= TextEditingController();
   TextEditingController controllerRegisterFirstName= TextEditingController();
   TextEditingController controllerRegisterLasttName= TextEditingController();
-  TextEditingController controllerPasswordLoginNew1= TextEditingController();
-  TextEditingController controllerPasswordLoginNew2= TextEditingController();
+
+
+
+
 
   ImagePicker picker = ImagePicker();
   String imageData = "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";
@@ -52,6 +53,22 @@ class _register extends State<register> {
   Widget build(BuildContext context) {
     double widthContainer = MediaQuery.of(context).size.width * 0.8;
     dynamic store = widget.store;
+    bool edit = widget.edit;
+    String uuidEdit="";
+
+      if(edit){
+       Userdata dateUserEdit=getDataUserEdit(dateUsersFamily: store.state.user.usersFamily);
+        print(dateUserEdit.pseudo);
+        controllerRegisterFirstName.text=dateUserEdit.firstname!;
+        controllerRegisterLasttName.text=dateUserEdit.lastname!;
+        controllerRegisterPseudo.text=dateUserEdit.pseudo!;
+        controllerRegisterSize.text=dateUserEdit.taille!;
+        controllerRegisterDateBirth.text=dateUserEdit.datenaissance!;
+        valueRadio=dateUserEdit.sexe!;
+        uuidEdit=dateUserEdit.uuid!;
+      }
+
+
     return StoreProvider<dynamic>(
         store: store,
         child: Form(
@@ -67,7 +84,7 @@ class _register extends State<register> {
                           children: [
                             ContenaireFormRegister(
                                 widthContainer: widthContainer,
-                                content: Text("Inscrivez-vous",
+                                content: Text("${(edit ? 'Modifier' :  'Ajouter')} un utilisateur à votre Team",
                                     style: GoogleFonts.pacifico(
                                         textStyle: const TextStyle(
                                             color: Colors.black,
@@ -79,7 +96,7 @@ class _register extends State<register> {
                             ),
                             ContenaireFormRegister(
                                 widthContainer: widthContainer,
-                                content: Text("Etape ${store.state.loginState.replaceAll("register", "")}/4",
+                                content: Text("Etape ${StringCommon(store: store).WriteStateFormString()}/4",
                                     style:const TextStyle(
                                             color: Colors.black,
                                             fontSize: 14.00,
@@ -91,17 +108,10 @@ class _register extends State<register> {
                                          builder: (context, loginState) {
                                           manageStateButtonSubmit(context: context,loginState: loginState);
                                            switch (loginState) {
-                                             case "register1":
+                                             case "logged-add-user-1":case "logged-edit-user-1":
                                                 return formRegisterState1(widthContainer: widthContainer);
-                                             case "register2":
-                                                return formRegisterState2(widthContainer: widthContainer, loginState: loginState);
-                                             case "register3":
-                                                  passwordEditNew1=true;
-                                                  passwordEditNew2=true;
-                                                return formRegisterState3(widthContainer: widthContainer);
-                                             case "register4":
-                                                return formRegisterConfirmation(widthContainer: widthContainer);
-
+                                             case "logged-add-user-2":case "logged-edit-user-2":
+                                                return formRegisterState2(widthContainer: widthContainer);
                                              default:
                                                 return formRegisterState1(widthContainer: widthContainer);
                                            }
@@ -115,74 +125,72 @@ class _register extends State<register> {
                                   Row(mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ElevatedButton.icon(
-                                          onPressed:
-                                            (!passwordConfirmValidateForm
-                                              ?
-                                              null
-                                              :
-                                              () {
-                                                      errorGenre=(valueRadio=='');
+                                          onPressed:(){
+                                                     errorGenre=(valueRadio=='');
                                                       if (_formRegister.currentState!.validate() && valueRadio!='' ) {
-                                                        if(store.state.loginState=="register1") {
+                                                        if(store.state.loginState=="logged-add-user-1" || store.state.loginState=="logged-edit-user-1" ) {
                                                               setState(() {
-                                                                passwordConfirmValidateForm=false;
-                                                                store.dispatch(loginActions.Register2);
+                                                                (edit ?
+                                                                store.dispatch(loginActions.LoggedEditUser2)
+                                                                :
+                                                                store.dispatch(loginActions.LoggedAddUser2)
+                                                                );
                                                               });
                                                         }
                                                         else{
-                                                          if(store.state.loginState=="register2") {
-                                                            store.dispatch(loginActions.Register3);
-                                                          }
-                                                          else{
-                                                             if(store.state.loginState=="register3") {
+                                                             if(store.state.loginState=="logged-add-user-2" || store.state.loginState=="logged-edit-user-2") {
                                                                Loader(context: context,snackBar: true).showLoader();
-                                                                Login().register(
+                                                                Login().addUserTeam(
                                                                      userDataRegister: Userdata(
-                                                                      uuid: null,
+                                                                      uuid: (edit ? uuidEdit : null),
                                                                       pseudo: controllerRegisterPseudo.text,
                                                                       firstname: controllerRegisterFirstName.text,
                                                                       lastname: controllerRegisterLasttName.text,
-                                                                      email: store.state.user.email,
-                                                                      profil: "familyadmin",
+                                                                      email: null,
+                                                                      profil: "familyUser",
                                                                       datenaissance: controllerRegisterDateBirth.text,
                                                                       sexe: valueRadio,
-                                                                      taille: 186,
+                                                                      taille: controllerRegisterSize.text,
                                                                       imageprofil: imageData,
-                                                                      uuidfamillyadmin: "uuidfamillyadmin",
-                                                                      token: null,
+                                                                      uuidfamillyadmin: store.state.user.uuid,
+                                                                      token: store.state.user.token,
                                                                       usersFamily: null,
                                                                       usersFamilyGlobalState: null
-                                                                  ),
-                                                                  passwordRegister: controllerPasswordLoginNew1.text
+                                                                      ),
+                                                                  store: store,
+                                                                  edit:edit
                                                                 ).then((value) => {
-                                                                  if(value['code']=="UR1"){
-                                                                      Loader(context: context,snackBar: true).hideLoader(),
-                                                                      store.dispatch(loginActions.Register4)
-                                                                    }
-                                                                  }
-                                                                );
+                                                                    if(value['code']=="UA1"){
+                                                                        Loader(context: context,snackBar: true).hideLoader(),
+                                                                        store.dispatch(loginActions.Logged)
+                                                                        }
+                                                                    else{
+                                                                        Loader(context: context,snackBar: true).hideLoader(),
+                                                                        store.dispatch(loginActions.Logout)
+                                                                        }
+                                                                });
                                                               }
                                                              else{
-                                                               store.dispatch(loginActions.Logout);
+                                                               store.dispatch(loginActions.Logged);
                                                              }
                                                           }
                                                         }
-                                                      }
                                                       else{
                                                         setState(() {
-
+                                                          
                                                         });
                                                       }
-                                                    }
-                                          ),
+                                                      }
+
+                                          ,
                                           icon: const Icon(
                                             Icons.check,
                                             size: 19.0,
                                           ),
-                                          label: Text(
-                                                      (store.state.loginState=="register4" ? "IDENTIFIEZ-VOUS" : "VALIDER"),
-                                                      style: TextStyle(fontSize: 19)
-                                                 ),
+                                          label: const Text(
+                                              "VALIDER",
+                                              style: TextStyle(fontSize: 19)
+                                          ),
                                         ),
                                       ])
                                 ]
@@ -197,7 +205,7 @@ class _register extends State<register> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Radio(
-            fillColor: (errorGenre ? MaterialStateProperty.all(Colors.red) : MaterialStateProperty.all(Color(0xFF455A64))),
+            fillColor: (errorGenre ? MaterialStateProperty.all(Colors.red) : MaterialStateProperty.all(const Color(0xFF455A64))),
             value: value,
             groupValue: valueRadioWidget,
             onChanged: (val) {
@@ -211,7 +219,7 @@ class _register extends State<register> {
             child: Text(
               libelRadio,
               style:  TextStyle(
-                  color: (errorGenre ? Colors.red :Color(0xFF455A64)),
+                  color: (errorGenre ? Colors.red :const Color(0xFF455A64)),
                   fontWeight: FontWeight.normal
               ),
             ),
@@ -336,7 +344,7 @@ class _register extends State<register> {
               widthContainer: widthContainer,
               content: TextFormField(
                 controller: controllerRegisterSize,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
@@ -387,112 +395,7 @@ class _register extends State<register> {
     );
   }
 
-  Widget formRegisterState2({required double widthContainer, required dynamic loginState}){
-    return Column(
-        children:[
-          ContenaireFormRegister(
-              widthContainer: widthContainer,
-              content: TextFormField(
-                            keyboardType: TextInputType.text,
-                            controller: controllerPasswordLoginNew1..text = 'Hefpccy%08%08',
-                            onChanged: (value) {
-                              setState(() {
-                                passwordConfirmValueError = checkLiveValueConfirmationPassword(
-                                    valuePassword: controllerPasswordLoginNew1.text,
-                                    valuePasswordCheck: controllerPasswordLoginNew2.text
-                                );
-                                passwordConfirmValidateForm = checkValueConfirmationPasswordForSubmit(
-                                    valuePassword: controllerPasswordLoginNew1.text,
-                                    valuePasswordCheck: controllerPasswordLoginNew2.text
-                                );
-                              });
-                            },
-                            obscureText: passwordEditNew1,
-                            decoration: InputDecoration(
-                                labelText: 'Nouveau mot de passe',
-                                hintText: 'Saisissez votre nouveau mot de passe',
-                                //icon: Icon(Icons.key),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    // Based on passwordVisible state choose the icon
-                                    passwordEditNew1
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
-                                  onPressed: () {
-                                    passwordEditNew1 = !passwordEditNew1;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                            ),
-          ),
-            (passwordConfirmView
-                ?
-                ContenaireFormRegister(
-                  widthContainer: widthContainer,
-                  content: TextFormField(
-                              keyboardType: TextInputType.text,
-                              controller: controllerPasswordLoginNew2..text = 'Hefpccy%08%08',
-                              obscureText: passwordEditNew2,
-                              style: TextStyle(color: (passwordConfirmValueError ? Colors.red : Colors.black)),
-                              onChanged: (value) {
-                                setState(() {
-                                  manageStateButtonSubmit(context: context,loginState: loginState);
-                                });
-                              },
-                              decoration: InputDecoration(
-                                labelText: 'Confirmation nouveau mot de passe',
-                                hintText: 'Confirmer votre nouveau mot de passe',
-                                //icon: Icon(Icons.key),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    // Based on passwordVisible state choose the icon
-                                    passwordEditNew2
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Theme.of(context).primaryColorDark,
-                                  ),
-                                  onPressed: () {
-                                    passwordEditNew2 = !passwordEditNew2;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                            ),
-                )
-                :
-                SizedBox()
-            ),
-           ContenaireFormRegister(
-                    widthContainer: widthContainer,
-                    content: FlutterPwValidator(
-                              controller: controllerPasswordLoginNew1,
-                              minLength: 6,
-                              uppercaseCharCount: 1,
-                              numericCharCount: 3,
-                              specialCharCount: 1,
-                              width: 400,
-                              height: 110,
-                              onSuccess: () {
-                                setState(() {
-                                  passwordConfirmView = true;
-                                });
-                              },
-                              onFail: () {
-                                setState(() {
-                                  passwordConfirmView = false;
-                                });
-                              },
-                            )
-           )
-        ]
-    );
-  }
-
-
-  Widget formRegisterState3({required double widthContainer}){
+  Widget formRegisterState2({required double widthContainer}){
     return Column(
         children:[
           ContenaireFormRegister(
@@ -603,35 +506,25 @@ class _register extends State<register> {
       imageData = base64Encode(bytes);
       setState(() {});
     }
-    
+
 
   }
 
   void manageStateButtonSubmit({required BuildContext context,required dynamic loginState}) {
-    if(loginState=="register2") {
-        passwordConfirmValueError = checkLiveValueConfirmationPassword(
-            valuePassword: controllerPasswordLoginNew1.text,
-            valuePasswordCheck: controllerPasswordLoginNew2.text
-        );
-        passwordConfirmValidateForm = checkValueConfirmationPasswordForSubmit(
-            valuePassword: controllerPasswordLoginNew1.text,
-            valuePasswordCheck: controllerPasswordLoginNew2.text
-        );
 
+  }
+
+
+  dynamic getDataUserEdit({required List<Userdata> dateUsersFamily}){
+    for (int i = 0; i < dateUsersFamily.length; i++) {
+     if (dateUsersFamily[i].uuid == "9adedae0-ea00-4250-978b-92c927d053cb") {
+       return dateUsersFamily[i];
+     }
     }
   }
+
+
 }
 
-bool checkLiveValueConfirmationPassword({required String valuePassword, required String valuePasswordCheck}){
-  if(valuePasswordCheck.length>valuePassword.length){
-    return true;
-  }
-  return valuePassword.substring(0, valuePasswordCheck.length)!=valuePasswordCheck;
-}
 
-bool checkValueConfirmationPasswordForSubmit({required String valuePassword, required String valuePasswordCheck}){
-  if(valuePassword==""){
-    return false;
-  }
-  return valuePassword==valuePasswordCheck;
-}
+

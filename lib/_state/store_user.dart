@@ -21,7 +21,7 @@ class SetUserConnectedLoginAction {
 
 class SetRegisterState1 {
   final dynamic user;
-    SetRegisterState1({required this.user});
+  SetRegisterState1({required this.user});
 }
 
 class SetUserLogOutLoginAction {

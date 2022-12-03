@@ -6,11 +6,13 @@ import 'package:regime_redux_v2/_widgets/appBar.dart';
 import 'package:regime_redux_v2/_widgets/bottomNavigationBar.dart';
 import 'package:regime_redux_v2/_widgets/drawerDevTools.dart';
 import 'package:regime_redux_v2/_widgets/drawerUser.dart';
-import 'widgets/loginFormState1.dart';
-import 'widgets/loginFormState2.dart';
-import 'widgets/register.dart';
-import 'widgets/accueil.dart';
+import 'LoginRegister/loginFormState1.dart';
+import 'LoginRegister/loginFormState2.dart';
+import 'LoginRegister/register.dart';
+import 'Users/accueil.dart';
+import 'Users/addEdit.dart';
 import 'dart:async';
+import 'package:regime_redux_v2/Poids/view.dart';
 
 
 class LoginPage extends StatelessWidget {
@@ -58,6 +60,15 @@ class LoginPage extends StatelessWidget {
                                             break;
                                           case "logged":
                                             returnWidget=accueil(context: context,store:store);
+                                            break;
+                                          case "logged-add-user-1": case "logged-add-user-2":
+                                            returnWidget=usersAddEdit(context: context,store:store,edit: false);
+                                            break;
+                                          case "logged-edit-user-1": case "logged-edit-user-2":
+                                            returnWidget=usersAddEdit(context: context,store:store,edit: true);
+                                            break;
+                                          case "logged-view-poids":
+                                            returnWidget=poidsView(context: context,store:store);
                                             break;
                                         }
                                         return returnWidget;

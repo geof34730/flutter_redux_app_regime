@@ -8,13 +8,16 @@ class AppState {
   AppState({
     required this.loginState,
     required this.user,
-    required this.globalState
+    required this.globalState,
   });
 
   factory AppState.initial() =>  AppState(
+      //loginState : {"widget":"email","param":"null"},
+
       loginState : "email",
+
       user : Userdata.initial(),
-      globalState:''
+      globalState:'',
   );
 
   dynamic toJson({bool globalState = true}) {
