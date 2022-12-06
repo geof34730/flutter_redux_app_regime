@@ -13,7 +13,7 @@ import 'Users/accueil.dart';
 import 'Users/addEdit.dart';
 import 'dart:async';
 import 'package:regime_redux_v2/Poids/view.dart';
-
+import '_models/loginState.dart';
 
 class LoginPage extends StatelessWidget {
   final Store<dynamic> store;
@@ -45,10 +45,10 @@ class LoginPage extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children:[
-                                      StoreConnector<dynamic, dynamic>(
+                                      StoreConnector<dynamic, LoginState>(
                                       converter: (store) => store.state.loginState,
                                       builder: (context, loginState) {
-                                        switch (loginState) {
+                                        switch (loginState.widget) {
                                           case "email":
                                             returnWidget=loginFormState1(context: context,store:store);
                                             break;

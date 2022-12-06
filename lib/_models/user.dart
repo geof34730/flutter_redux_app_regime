@@ -1,5 +1,3 @@
-
-
 class Userdata {
   late String? uuid;
   late String? pseudo;
@@ -68,8 +66,6 @@ class Userdata {
         usersFamily = map["usersFamily"],
         usersFamilyGlobalState =  map["usersFamilyGlobalState"];
 
-
-
   dynamic toJson(globalState) {
     return {
       "uuid":uuid,
@@ -89,8 +85,8 @@ class Userdata {
     };
   }
 
-  updateEmail(String Email){
-    email=Email;
+  updateEmail(String email){
+    this.email=email;
   }
 
   resetUser(){

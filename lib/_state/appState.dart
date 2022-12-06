@@ -1,7 +1,8 @@
 import '../_models/user.dart';
+import '../_models/loginState.dart';
 
 class AppState {
-  final String loginState;
+  final LoginState loginState;
   final Userdata user;
   final dynamic globalState;
 
@@ -12,17 +13,14 @@ class AppState {
   });
 
   factory AppState.initial() =>  AppState(
-      //loginState : {"widget":"email","param":"null"},
-
-      loginState : "email",
-
+      loginState : LoginState(widget: "email", param: null),
       user : Userdata.initial(),
       globalState:'',
   );
 
   dynamic toJson({bool globalState = true}) {
     return {
-      "loginState": loginState,
+      "loginState": loginState.toJson(loginState),
       "user": user.toJson((globalState ?  true : false)),
       "globalState": (globalState ?  toJson(globalState: false) : ''),
     };

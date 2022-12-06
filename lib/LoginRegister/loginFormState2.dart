@@ -190,7 +190,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                 ),
                                 onPressed: () {
                                   Loader(context: context,snackBar: true).showLoader();
-                                  Login().sendEmailForgetPassword(email: store.state.user.email,store: store,mail: "forgetPassword").then((value) {
+                                  ServiceLogin().sendEmailForgetPassword(email: store.state.user.email,store: store,mail: "forgetPassword").then((value) {
                                     Loader(context: context,snackBar: true).hideLoader();
                                       return _displayCodeForgetPasswordInputDialog(
                                           context: context,
@@ -215,16 +215,14 @@ class _loginFormState2 extends State<loginFormState2> {
   }
 
 
-
-
   void sendLoginPassword({required dynamic store, required String mail}){
    void functReturn;
     Loader(context: context,snackBar: true).showLoader();
-    Login().sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
+    ServiceLogin().sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
         {
         if(value['statut'] == "error"){
           if(value['code']=="ULP2"){
-              Login().sendEmailForgetPassword(email: store.state.user.email,store: store,mail:mail).then((value) {
+              ServiceLogin().sendEmailForgetPassword(email: store.state.user.email,store: store,mail:mail).then((value) {
                 Loader(context: context,snackBar: true).hideLoader();
                 print(value);
 
@@ -350,7 +348,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                                   if (codeSend.length == nbDigitCode) {
                                                     sendService=true;
                                                     Loader(context: context,snackBar: true).showLoader();
-                                                    Login().sendCodeForgetPassword(
+                                                    ServiceLogin().sendCodeForgetPassword(
                                                         email: store.state.user.email,
                                                         codereset: codeSend,
                                                         store: store).then((value) {
@@ -547,7 +545,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                                   if (codeSend.length == nbDigitCode) {
                                                     sendService=true;
                                                     Loader(context: context,snackBar: true).showLoader();
-                                                    Login().sendCodeValidationInscription(
+                                                    ServiceLogin().sendCodeValidationInscription(
                                                         email: store.state.user.email,
                                                         codevalidation: codeSend,
                                                         store: store).then((value) {
@@ -840,7 +838,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                         ?
                                         (){
                                           Loader(context: context,snackBar: true).showLoader();
-                                          Login().sendForgetNewPassword(email: store.state.user.email, codereset: codereset, password: controllerPasswordLoginNew1.text, store: store).then((value) {
+                                          ServiceLogin().sendForgetNewPassword(email: store.state.user.email, codereset: codereset, password: controllerPasswordLoginNew1.text, store: store).then((value) {
                                             setState((){
                                               confirmUpdatePassword=true;
                                             });

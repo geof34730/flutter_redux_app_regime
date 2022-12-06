@@ -27,16 +27,18 @@ class _loginFormState1 extends State<loginFormState1>{
     super.initState();
   }
   final _formLoginState1 = GlobalKey<FormState>();
-  final controllerPasswordLogin = TextEditingController();
+  final  TextEditingController  controllerEmailLogin = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double widthContainer = MediaQuery
         .of(context)
         .size
         .width * 0.8;
-    final controllerEmailLogin = TextEditingController();
-    dynamic store=widget.store;
 
+   // controllerEmailLogin.text = 'geoffrey.petain@gmail.com';
+
+    dynamic store=widget.store;
     return StoreProvider<dynamic>(
         store: store,
         child: Form(
@@ -96,7 +98,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                 padding: const EdgeInsets.all(10),
                                 width: widthContainer,
                                 child: TextFormField(
-                                  controller: controllerEmailLogin..text = 'geoffrey.petain@gmail.com',
+                                  controller: controllerEmailLogin,
                                   decoration: const InputDecoration(
                                     icon: Icon(Icons.person),
                                     hintText: 'Saisissez votre Email',
@@ -115,7 +117,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                           onPressed: () {
                                             if (_formLoginState1.currentState!.validate()) {
                                                 Loader(context: context,snackBar: true).showLoader();
-                                                Login().sendEmailLogin(email: controllerEmailLogin.text, store: store).then((value) =>{
+                                                ServiceLogin().sendEmailLogin(email: controllerEmailLogin.text, store: store).then((value) =>{
                                                     Loader(context: context,snackBar: true).hideLoader()
                                                 }
                                               );

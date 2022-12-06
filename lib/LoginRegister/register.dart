@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../../_class/loader.dart';
 import '../../_models/user.dart';
-import '../../_services/login.dart';
+import '../../_services/user.dart';
 import '../../_state/store_connect.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -78,7 +78,7 @@ class _register extends State<register> {
                             ),
                             ContenaireFormRegister(
                                 widthContainer: widthContainer,
-                                content: Text("Etape ${store.state.loginState.replaceAll("register", "")}/4",
+                                content: Text("Etape ${store.state.loginState.widget.replaceAll("register", "")}/4",
                                     style:const TextStyle(
                                             color: Colors.black,
                                             fontSize: 14.00,
@@ -89,7 +89,7 @@ class _register extends State<register> {
                                       converter: (store) => store.state.loginState,
                                          builder: (context, loginState) {
                                           manageStateButtonSubmit(context: context,loginState: loginState);
-                                           switch (loginState) {
+                                           switch (loginState.widget) {
                                              case "register1":
                                                 return formRegisterState1(widthContainer: widthContainer);
                                              case "register2":
@@ -101,7 +101,7 @@ class _register extends State<register> {
                                              case "register4":
                                                 return formRegisterConfirmation(widthContainer: widthContainer);
                                              default:
-                                                return formRegisterState1(widthContainer: widthContainer);
+                                                return formRegisterConfirmation(widthContainer: widthContainer);
                                            }
                                          }
                           ),
@@ -121,20 +121,20 @@ class _register extends State<register> {
                                               () {
                                                       errorGenre=(valueRadio=='');
                                                       if (_formRegister.currentState!.validate() && valueRadio!='' ) {
-                                                        if(store.state.loginState=="register1") {
+                                                        if(store.state.loginState.widget=="register1") {
                                                               setState(() {
                                                                 passwordConfirmValidateForm=false;
                                                                 store.dispatch(loginActions.Register2);
                                                               });
                                                         }
                                                         else{
-                                                          if(store.state.loginState=="register2") {
+                                                          if(store.state.loginState.widget=="register2") {
                                                             store.dispatch(loginActions.Register3);
                                                           }
                                                           else{
-                                                             if(store.state.loginState=="register3") {
+                                                             if(store.state.loginState.widget=="register3") {
                                                                Loader(context: context,snackBar: true).showLoader();
-                                                                Login().register(
+                                                                ServiceUser().register(
                                                                      userDataRegister: Userdata(
                                                                       uuid: null,
                                                                       pseudo: controllerRegisterPseudo.text,
@@ -178,7 +178,7 @@ class _register extends State<register> {
                                             size: 19.0,
                                           ),
                                           label: Text(
-                                                      (store.state.loginState=="register4" ? "IDENTIFIEZ-VOUS" : "VALIDER"),
+                                                      (store.state.loginState.widget.toString()=="register4" ? "IDENTIFIEZ-VOUS" : "VALIDER"),
                                                       style: TextStyle(fontSize: 19)
                                                  ),
                                         ),
@@ -386,15 +386,20 @@ class _register extends State<register> {
   }
 
   Widget formRegisterState2({required double widthContainer, required dynamic loginState}){
+    TextEditingController  controllerPasswordLoginNew1 = TextEditingController();
+    TextEditingController  controllerPasswordLoginNew2 = TextEditingController();
+   // controllerPasswordLoginNew1.text = 'Hefpccy%08%08';
+   // controllerPasswordLoginNew2.text = 'Hefpccy%08%08';
+
     return Column(
         children:[
           ContenaireFormRegister(
               widthContainer: widthContainer,
               content: TextFormField(
                             keyboardType: TextInputType.text,
-                            controller: controllerPasswordLoginNew1..text = 'Hefpccy%08%08',
+                            controller: controllerPasswordLoginNew1,
                             onChanged: (value) {
-                              setState(() {
+                              print(value);
                                 passwordConfirmValueError = checkLiveValueConfirmationPassword(
                                     valuePassword: controllerPasswordLoginNew1.text,
                                     valuePasswordCheck: controllerPasswordLoginNew2.text
@@ -403,7 +408,13 @@ class _register extends State<register> {
                                     valuePassword: controllerPasswordLoginNew1.text,
                                     valuePasswordCheck: controllerPasswordLoginNew2.text
                                 );
-                              });
+
+/*
+                             setState(() {
+                             });
+                             */
+
+
                             },
                             obscureText: passwordEditNew1,
                             decoration: InputDecoration(
@@ -412,8 +423,7 @@ class _register extends State<register> {
                                 //icon: Icon(Icons.key),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    // Based on passwordVisible state choose the icon
-                                    passwordEditNew1
+                                      passwordEditNew1
                                         ? Icons.visibility_off
                                         : Icons.visibility,
                                     color: Theme.of(context).primaryColorDark,
@@ -432,7 +442,7 @@ class _register extends State<register> {
                   widthContainer: widthContainer,
                   content: TextFormField(
                               keyboardType: TextInputType.text,
-                              controller: controllerPasswordLoginNew2..text = 'Hefpccy%08%08',
+                              controller: controllerPasswordLoginNew2,
                               obscureText: passwordEditNew2,
                               style: TextStyle(color: (passwordConfirmValueError ? Colors.red : Colors.black)),
                               onChanged: (value) {

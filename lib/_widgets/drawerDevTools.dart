@@ -9,6 +9,7 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
+            print(state.globalState);
             return Material(
               child: ListView(
                   padding: EdgeInsets.zero,
@@ -16,7 +17,7 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
                 SizedBox(
                   height: 75,
                    child: Container(
-                     height:75.00,
+                      height:75.00,
                       decoration: const BoxDecoration(
                       color: Colors.red,
                     ),

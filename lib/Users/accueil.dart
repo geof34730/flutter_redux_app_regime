@@ -67,7 +67,7 @@ class _accueil extends State<accueil> {
                                   spacing: 15.0, // gap between adjacent chips
                                   runSpacing: 15.0,
                                   children: [
-                                    for(var item in store.state.user.usersFamily)avatarProFil(pseudo: item.pseudo, imgBase64: item.imageprofil, modifyProfile: modifyProfile,store: store),
+                                    for(var item in store.state.user.usersFamily)avatarProFil(pseudo: item.pseudo,uuid: item.uuid, imgBase64: item.imageprofil, modifyProfile: modifyProfile,store: store),
                                      avatarAdd(store: store)
                                   ],
                                 )
@@ -121,14 +121,14 @@ class _accueil extends State<accueil> {
 
   }
 
-   Row avatarProFil({required String pseudo,required String imgBase64, required bool modifyProfile,required dynamic store}) {
+   Row avatarProFil({required String pseudo,required String uuid,required String imgBase64, required bool modifyProfile,required dynamic store}) {
       return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Column(mainAxisSize: MainAxisSize.max, children: [
                 InkWell(
                     onTap: () {
-                      (modifyProfile ? store.dispatch(loginActions.LoggedEditUser1) : store.dispatch(loginActions.LoggedViewPoids));
+                      (modifyProfile ? store.dispatch(LoggedEditUser1(uuidMofify: uuid)) : store.dispatch(loginActions.LoggedViewPoids));
                     },
                     child: Container(
                       child: Column(mainAxisSize: MainAxisSize.max, children: [

@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
   MyApp({Key? key, required this.store}) : super(key: key);
   final Store<dynamic> store;
 
-
   @override
   Widget build(BuildContext context) {
     return StoreProvider<dynamic>(

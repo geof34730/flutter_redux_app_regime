@@ -7,11 +7,14 @@ import '../_state/store_connect.dart';
 import 'drawerDevTools.dart';
 
 Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
+
+  print("init dev tools");
   return StoreProvider<dynamic>(
       store: store,
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
+            print("init dev tools Store refresh");
            return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.min,
@@ -22,7 +25,7 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
                      children:[
                         Container(
                             height: 60,
-                            width:MediaQuery.of(context).size.width * (state.loginState=="logged" ? 0.50 : 1),
+                            width:MediaQuery.of(context).size.width * (state.loginState.widget=="logged" ? 0.50 : 1),
                             color: Colors.black12,
                             child: InkWell(
                               onTap: () =>  showDialog(
@@ -51,7 +54,7 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
                               ),
                             ),
                         ),
-                        if(state.loginState=="logged")Container(
+                        if(state.loginState.widget=="logged")Container(
                             height: 60,
                             width:MediaQuery.of(context).size.width * 0.50,
                             color: Colors.black12,

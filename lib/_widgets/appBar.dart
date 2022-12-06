@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../_state/store_connect.dart';
-
+import '../_models/loginState.dart';
 Widget appBarWidgets({required context, required dynamic store}) {
     void mangageActionBackNavigation({required dynamic store}){
-        switch (store.state.loginState) {
+        switch (store.state.loginState.widget) {
            case "register1":
              store.dispatch(loginActions.State1);
              break;
@@ -25,22 +25,16 @@ Widget appBarWidgets({required context, required dynamic store}) {
            case "logged-add-user-2":
               store.dispatch(loginActions.LoggedAddUser1);
               break;
-
            case "logged-edit-user-1":
               store.dispatch(loginActions.Logged);
               break;
            case "logged-edit-user-2":
-              store.dispatch(loginActions.LoggedEditUser1);
+              store.dispatch(LoggedEditUser1(uuidMofify: store.state.loginState.param.uuid));
               break;
-
-
-
            case "logged-view-poids":
               store.dispatch(loginActions.Logged);
               break;
-
-           default:
-              null;
+           default:null;
          }
     }
 
@@ -49,7 +43,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
-            if(state.loginState!="logged") {
+            if(state.loginState.widget!="logged") {
               return AppBar(
                 title: Text(
                   'TeamWeight   '+Localizations.localeOf(context).toString(),
@@ -65,9 +59,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
                       null
                       :
                          IconButton(
-                           icon: const Icon(
-                               Icons.arrow_back_ios_new, color: Colors.white
-                           ),
+                           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                            onPressed: () => mangageActionBackNavigation(store: store),
                         )
                       ),
@@ -87,7 +79,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
                 ),
                 leading:
                  (
-                  state.loginState!="email" && state.loginState!="logged"
+                  state.loginState.widget!="email" && state.loginState.widget!="logged"
                       ?
                       IconButton(
                            icon: const Icon(

@@ -6,7 +6,7 @@ import '../_state/store_user.dart';
 import '../_state/store_connect.dart';
 import '../_models/user.dart';
 
-class Login {
+class ServiceLogin {
 
   Future<void> sendEmailLogin({required String email, required dynamic store}) async {
     String urlEnv= "${dotenv.get("URL_API")}/user/login/stage1";
@@ -28,7 +28,6 @@ class Login {
     final url = Uri.parse(urlEnv);
     final headers = {"Content-type": "application/json"};
     final json = '{"email": "${store.state.user.email}","password":"$password"}';
-
     final response = await post(url, headers: headers, body: json);
     if(response.statusCode==200){
       store.dispatch(loginActions.Logged);
@@ -66,26 +65,6 @@ class Login {
         '"email": "$email",'
         '"code":"$codereset",'
         '"password":"$password"'
-        '}';
-    final response = await post(url, headers: headers, body: json);
-    return jsonDecode(response.body);
-  }
-
-  Future<dynamic> register({required Userdata userDataRegister,required String passwordRegister}) async {
-    String urlEnv= "${dotenv.get("URL_API")}/user/register";
-    print(userDataRegister.datenaissance);
-    final url = Uri.parse(urlEnv);
-    final headers = {"Content-type": "application/json;charset=utf-8"};
-    final json = '{'
-        '"email": "${userDataRegister.email}",'
-        '"lastname":"${userDataRegister.lastname}",'
-        '"firstname":"${userDataRegister.firstname}",'
-        '"pseudo":"${userDataRegister.pseudo}",'
-        '"imageprofil":"${userDataRegister.imageprofil}",'
-        '"datenaissance":"${userDataRegister.datenaissance}",'
-        '"sexe":"${userDataRegister.sexe}",'
-        '"taille":"${userDataRegister.taille}",'
-        '"password":"$passwordRegister"'
         '}';
     final response = await post(url, headers: headers, body: json);
     return jsonDecode(response.body);
