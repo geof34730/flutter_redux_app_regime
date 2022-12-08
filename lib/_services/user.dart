@@ -52,4 +52,20 @@ class ServiceUser {
     return jsonDecode(response.body);
   }
 
+  Future<dynamic> deleteUserTeam({required String userUuidDelete,required dynamic store}) async {
+    String urlEnv= "${dotenv.get("URL_API")}/user/userteamdelete";
+    final url = Uri.parse(urlEnv);
+    final headers = {
+      "Content-type": "application/json;charset=utf-8",
+      "Authorization":"${store.state.user.token}"
+    };
+    final json = '{'
+        '"uuid": "${userUuidDelete}",'
+        '"uuidfamillyadmin": "${store.state.user.uuidfamillyadmin}"'
+        '}';
+    final response = await post(url, headers: headers, body: json);
+    store.dispatch(SetUserConnectedLoginAction(jsonDecode(response.body)['user']));
+    return jsonDecode(response.body);
+  }
+
 }

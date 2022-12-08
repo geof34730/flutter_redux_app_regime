@@ -35,8 +35,7 @@ class _loginFormState1 extends State<loginFormState1>{
         .of(context)
         .size
         .width * 0.8;
-
-   // controllerEmailLogin.text = 'geoffrey.petain@gmail.com';
+    controllerEmailLogin.text = 'geoffrey.petain@gmail.com';
 
     dynamic store=widget.store;
     return StoreProvider<dynamic>(

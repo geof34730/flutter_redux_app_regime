@@ -42,8 +42,14 @@ class _register extends State<register> {
   TextEditingController controllerRegisterPseudo= TextEditingController();
   TextEditingController controllerRegisterFirstName= TextEditingController();
   TextEditingController controllerRegisterLasttName= TextEditingController();
-  TextEditingController controllerPasswordLoginNew1= TextEditingController();
-  TextEditingController controllerPasswordLoginNew2= TextEditingController();
+
+
+
+
+    TextEditingController  controllerPasswordLoginNew1 = TextEditingController();
+    TextEditingController  controllerPasswordLoginNew2 = TextEditingController();
+
+
   ImagePicker picker = ImagePicker();
   String imageData = "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";
   bool modifyProfile=true;
@@ -178,7 +184,7 @@ class _register extends State<register> {
                                             size: 19.0,
                                           ),
                                           label: Text(
-                                                      (store.state.loginState.widget.toString()=="register4" ? "IDENTIFIEZ-VOUS" : "VALIDER"),
+                                                      (store.state.loginState.widget=="register4" ? "IDENTIFIEZ-VOUS" : "VALIDER"),
                                                       style: TextStyle(fontSize: 19)
                                                  ),
                                         ),
@@ -386,8 +392,7 @@ class _register extends State<register> {
   }
 
   Widget formRegisterState2({required double widthContainer, required dynamic loginState}){
-    TextEditingController  controllerPasswordLoginNew1 = TextEditingController();
-    TextEditingController  controllerPasswordLoginNew2 = TextEditingController();
+
    // controllerPasswordLoginNew1.text = 'Hefpccy%08%08';
    // controllerPasswordLoginNew2.text = 'Hefpccy%08%08';
 
@@ -399,22 +404,16 @@ class _register extends State<register> {
                             keyboardType: TextInputType.text,
                             controller: controllerPasswordLoginNew1,
                             onChanged: (value) {
-                              print(value);
-                                passwordConfirmValueError = checkLiveValueConfirmationPassword(
-                                    valuePassword: controllerPasswordLoginNew1.text,
-                                    valuePasswordCheck: controllerPasswordLoginNew2.text
-                                );
-                                passwordConfirmValidateForm = checkValueConfirmationPasswordForSubmit(
-                                    valuePassword: controllerPasswordLoginNew1.text,
-                                    valuePasswordCheck: controllerPasswordLoginNew2.text
-                                );
-
-/*
-                             setState(() {
-                             });
-                             */
-
-
+                                setState(() {
+                                       passwordConfirmValueError = checkLiveValueConfirmationPassword(
+                                        valuePassword: controllerPasswordLoginNew1.text,
+                                        valuePasswordCheck: controllerPasswordLoginNew2.text
+                                    );
+                                    passwordConfirmValidateForm = checkValueConfirmationPasswordForSubmit(
+                                        valuePassword: controllerPasswordLoginNew1.text,
+                                        valuePasswordCheck: controllerPasswordLoginNew2.text
+                                    );
+                              });
                             },
                             obscureText: passwordEditNew1,
                             decoration: InputDecoration(
@@ -616,7 +615,7 @@ class _register extends State<register> {
   }
 
   void manageStateButtonSubmit({required BuildContext context,required dynamic loginState}) {
-    if(loginState=="register2") {
+    if(loginState.widget=="register2") {
         passwordConfirmValueError = checkLiveValueConfirmationPassword(
             valuePassword: controllerPasswordLoginNew1.text,
             valuePasswordCheck: controllerPasswordLoginNew2.text
@@ -625,7 +624,6 @@ class _register extends State<register> {
             valuePassword: controllerPasswordLoginNew1.text,
             valuePasswordCheck: controllerPasswordLoginNew2.text
         );
-
     }
   }
 }

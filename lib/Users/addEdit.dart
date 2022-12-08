@@ -120,6 +120,52 @@ class _usersAddEdit extends State<usersAddEdit> {
                                 child: Column(children: [
                                   Row(mainAxisSize: MainAxisSize.min,
                                       children: [
+                                          Visibility(
+                                            visible: edit,
+                                              child:ElevatedButton.icon(
+                                                style: ButtonStyle(
+                                                  backgroundColor:  MaterialStateProperty.all(Colors.red),
+                                                ),
+                                                onPressed:() {
+                                                  print(store.state.loginState.widget);
+                                                  if (store.state.loginState.widget == "logged-edit-user-1") {
+                                                     print('2');
+                                                    Loader(context: context, snackBar: true).showLoader();
+                                                    SnackBar snackBar;
+                                                    ServiceUser().deleteUserTeam(
+                                                        userUuidDelete: uuidEdit!,
+                                                        store: store,
+                                                    ).then((value) =>
+                                                    {
+                                                      if(value['code'] == "UD1"){
+                                                        Loader(context: context, snackBar: true).hideLoader(),
+                                                        store.dispatch(loginActions.Logged),
+                                                        SnakBar(context: context, messageSnackBar: value['message'], themeSnackBar: 'success').showSnakBar()
+                                                      }
+                                                      else
+                                                        {
+                                                          Loader(context: context, snackBar: true).hideLoader(),
+                                                          store.dispatch(loginActions.Logout)
+                                                        }
+                                                    });
+                                                  }
+                                                }
+                                                ,
+                                                icon: const Icon(
+                                                  Icons.check,
+                                                  size: 19.0,
+                                                ),
+                                                label: const Text(
+                                                    "SUPPRIMER",
+                                                    style: TextStyle(fontSize: 19)
+                                                ),
+                                              ),
+                                          ),
+                                        const SizedBox(
+                                          width:20.00
+
+                                        ),
+
                                         ElevatedButton.icon(
                                           onPressed:(){
                                                errorGenre=(valueRadio=='');
@@ -188,6 +234,7 @@ class _usersAddEdit extends State<usersAddEdit> {
                                               style: TextStyle(fontSize: 19)
                                           ),
                                         ),
+
                                       ])
                                 ]
                                 )
@@ -299,15 +346,10 @@ class _usersAddEdit extends State<usersAddEdit> {
                   labelText: 'Nom',
                 ),
                  onChanged: (text) {
-
                     controllerRegisterLasttName.value = TextEditingValue(
                         text: text,
                         selection: TextSelection.collapsed(offset: text.length),
                       );
-
-
-
-
                   },
                 validator: (val) =>
                 val == ''

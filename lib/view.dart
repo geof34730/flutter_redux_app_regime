@@ -4,14 +4,13 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:regime_redux_v2/_widgets/appBar.dart';
 import 'package:regime_redux_v2/_widgets/bottomNavigationBar.dart';
-import 'package:regime_redux_v2/_widgets/drawerDevTools.dart';
 import 'package:regime_redux_v2/_widgets/drawerUser.dart';
 import 'LoginRegister/loginFormState1.dart';
 import 'LoginRegister/loginFormState2.dart';
 import 'LoginRegister/register.dart';
 import 'Users/accueil.dart';
 import 'Users/addEdit.dart';
-import 'dart:async';
+
 import 'package:regime_redux_v2/Poids/view.dart';
 import '_models/loginState.dart';
 
