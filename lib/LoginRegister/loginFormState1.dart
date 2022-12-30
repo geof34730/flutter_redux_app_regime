@@ -6,6 +6,7 @@ import 'package:validators/validators.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../_services/login.dart';
 import 'dart:async';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class loginFormState1 extends StatefulWidget {
   final dynamic store;
   final dynamic context;
@@ -55,7 +56,7 @@ class _loginFormState1 extends State<loginFormState1>{
                               alignment: AlignmentDirectional.center,
                               padding: const EdgeInsets.all(10),
                               width: widthContainer,
-                              child: Text('Bienvenue sur Team Weight,',
+                              child: Text(AppLocalizations.of(context)!.welcomeTeamWeight,
                                   style: GoogleFonts.pacifico(
                                       textStyle: const TextStyle(
                                           color: Colors.black,
@@ -116,7 +117,7 @@ class _loginFormState1 extends State<loginFormState1>{
                                           onPressed: () {
                                             if (_formLoginState1.currentState!.validate()) {
                                                 Loader(context: context,snackBar: true).showLoader();
-                                                ServiceLogin().sendEmailLogin(email: controllerEmailLogin.text, store: store).then((value) =>{
+                                                ServiceLogin(context: context).sendEmailLogin(email: controllerEmailLogin.text, store: store).then((value) =>{
                                                     Loader(context: context,snackBar: true).hideLoader()
                                                 }
                                               );

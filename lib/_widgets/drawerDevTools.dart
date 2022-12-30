@@ -7,9 +7,15 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
   return StoreProvider<dynamic>(
       store: store,
       child: StoreConnector<dynamic, dynamic>(
-          converter: (store) => store.state,
-          builder: (context, state) {
-            print(state.globalState);
+          converter: (store) => store,
+          builder: (context, store) {
+            dynamic myState=store.state;
+            if(myState.user.imageprofil!=null) {
+              myState.user.imageprofil=myState.user.imageprofil.substring(0, 50);
+            }
+            dynamic myStateJson=jsonEncode(myState);
+
+
             return Material(
               child: ListView(
                   padding: EdgeInsets.zero,
@@ -32,7 +38,7 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
                               Navigator.pop(context, true);
                             },
                           ),
-                           Text(
+                           const Text(
                               'DEBUG TOOLS GEOFFREY',
                               style: TextStyle(
                                 color: Colors.white,
@@ -47,7 +53,7 @@ StoreProvider drawerWidget({required context, required dynamic store}) {
                   color: Colors.black,
                   padding: const EdgeInsets.all(20.00),
                   child: ColoredJson(
-                    data:  '[${jsonEncode(state.globalState)}]',
+                    data:  '[$myStateJson]',
                     indentLength: 10,
                     keyColor: Colors.green,
                     backgroundColor: Colors.black,

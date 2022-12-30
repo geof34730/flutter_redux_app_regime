@@ -7,6 +7,11 @@ import '../_state/store_connect.dart';
 import '../_models/user.dart';
 
 class ServiceUser {
+  late BuildContext context;
+  late Locale localizations=Localizations.localeOf(context);
+  ServiceUser({
+    required this.context,
+  });
 
   Future<dynamic> register({required Userdata userDataRegister,required String passwordRegister}) async {
     String urlEnv= "${dotenv.get("URL_API")}/user/register";
@@ -22,7 +27,8 @@ class ServiceUser {
         '"datenaissance":"${userDataRegister.datenaissance}",'
         '"sexe":"${userDataRegister.sexe}",'
         '"taille":"${userDataRegister.taille}",'
-        '"password":"$passwordRegister"'
+        '"password":"$passwordRegister",'
+        '"localizations":"$localizations"'
         '}';
     final response = await post(url, headers: headers, body: json);
     return jsonDecode(response.body);

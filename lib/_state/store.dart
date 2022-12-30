@@ -6,11 +6,13 @@ import '../main.dart';
 
 
 AppState appStateReducer(AppState state, action){
-  return AppState(
+  AppState appStateReturn= AppState(
     loginState: ConnectUser(state.loginState, action),
     user:dataUser(state.user, action),
-    globalState:state.toJson(globalState: false)
+  //  globalState:state.toJson(globalState: false)
   );
+  return appStateReturn;
+
 }
 
 

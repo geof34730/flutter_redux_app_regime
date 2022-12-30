@@ -11,7 +11,7 @@ Widget drawerUser({required context, required dynamic store}) {
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
-            if (state.loginState.widget != "logged") {
+            if (state.loginState.widget.indexOf("logged")<0 ) {
               return SizedBox();
             } else {
               return Drawer(

@@ -7,6 +7,12 @@ import '../_state/store_connect.dart';
 import '../_models/user.dart';
 
 class ServiceLogin {
+  late BuildContext context;
+  late Locale localizations=Localizations.localeOf(context);
+  ServiceLogin({
+    required this.context,
+  });
+
 
   Future<void> sendEmailLogin({required String email, required dynamic store}) async {
     String urlEnv= "${dotenv.get("URL_API")}/user/login/stage1";
@@ -32,6 +38,7 @@ class ServiceLogin {
     if(response.statusCode==200){
       store.dispatch(loginActions.Logged);
       store.dispatch(SetUserConnectedLoginAction(jsonDecode(response.body)['user']));
+
       return {"statut":"success"};
     }
     else{

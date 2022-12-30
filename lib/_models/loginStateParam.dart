@@ -1,5 +1,6 @@
 class LoginStateParam {
   late String? uuid;
+
   LoginStateParam({
     required this.uuid,
   });

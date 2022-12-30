@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+String defaultLanguage="en";
 class Userdata {
   late String? uuid;
   late String? pseudo;
@@ -11,9 +13,10 @@ class Userdata {
   late String? imageprofil;
   late String? uuidfamillyadmin;
   late String? token;
+  late String localization;
+
   late List<Userdata>? usersFamily;
   late List<dynamic>? usersFamilyGlobalState;
-
 
   Userdata({
     required this.uuid,
@@ -29,7 +32,8 @@ class Userdata {
     required this.uuidfamillyadmin,
     required this.token,
     required this.usersFamily,
-    required this.usersFamilyGlobalState
+    required this.usersFamilyGlobalState,
+    required this.localization
   });
 
   factory Userdata.initial() => Userdata(
@@ -46,7 +50,8 @@ class Userdata {
       uuidfamillyadmin:null,
       token:null,
       usersFamily:null,
-      usersFamilyGlobalState:null
+      usersFamilyGlobalState:null,
+      localization:defaultLanguage
 
   );
 
@@ -64,9 +69,10 @@ class Userdata {
         uuidfamillyadmin = map["uuidfamillyadmin"],
         token = map["token"],
         usersFamily = map["usersFamily"],
-        usersFamilyGlobalState =  map["usersFamilyGlobalState"];
+        usersFamilyGlobalState =  map["usersFamilyGlobalState"],
+        localization =  map["localization"];
 
-  dynamic toJson(globalState) {
+  dynamic toJson() {
     return {
       "uuid":uuid,
       "pseudo":pseudo,
@@ -77,11 +83,12 @@ class Userdata {
       "datenaissance":datenaissance,
       "sexe":sexe,
       "taille":taille,
-      "imageprofil":(globalState ? imageprofil: imageprofil?.substring(0, 50)),
+      "imageprofil":imageprofil,
       "uuidfamillyadmin":uuidfamillyadmin,
       "token":token,
       "usersFamily":usersFamily.toString(),
-      "usersFamilyGlobalState":usersFamilyGlobalState
+      "usersFamilyGlobalState":usersFamilyGlobalState,
+      "localization":localization
     };
   }
 
@@ -133,10 +140,11 @@ class Userdata {
     token = user["token"];
     usersFamily = listUsersFamily;
     usersFamilyGlobalState = listUsersFamilyGlobalSTate;
+    localization = localization;
   }
 
 
-  saveUserRegister(dynamic user){
+  saveUserRegister(Userdata user){
     uuid=user.uuid;
     pseudo=user.pseudo;
     firstname=user.firstname;
@@ -150,6 +158,12 @@ class Userdata {
     token=user.token;
     uuidfamillyadmin=user.uuidfamillyadmin;
     usersFamily=user.usersFamily;
+    localization=user.localization;
   }
+
+  saveUserlanguage(String lang){
+    localization=lang;
+  }
+
 
 }

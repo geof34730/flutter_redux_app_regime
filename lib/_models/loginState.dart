@@ -16,7 +16,7 @@ class LoginState {
   dynamic toJson(globalstate) {
     return {
       "widget":widget,
-      "param":param
+      "param": {"uuid" : param?.uuid}
     };
   }
 }

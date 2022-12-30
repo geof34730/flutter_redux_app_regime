@@ -1,5 +1,6 @@
 import '../_models/loginState.dart';
 import '../_models/loginStateParam.dart';
+import '../_models/user.dart';
 enum loginActions {
   State1,
   State2,
@@ -11,8 +12,6 @@ enum loginActions {
   Logout,
   LoggedAddUser1,
   LoggedAddUser2,
- // LoggedEditUser1,
-//  LoggedEditUser2,
   LoggedViewPoids,
   LoggedAddPoids,
   LoggedEditPoids,
@@ -29,15 +28,8 @@ class LoggedEditUser2 {
 dynamic ConnectUser( LoginState state, dynamic action) {
   if (action is LoggedEditUser1 || action is LoggedEditUser2) {
     state=LoginState(widget: (action is LoggedEditUser1 ? "logged-edit-user-1" : "logged-edit-user-2"), param: LoginStateParam(uuid:action.uuidMofify));
-//    print("************************MY STATE");
-//    print(action.uuidMofify);
   }
   else {
-
-
-
-
-
      switch (action) {
        case loginActions.State1:
        case loginActions.Logout:
@@ -75,9 +67,6 @@ dynamic ConnectUser( LoginState state, dynamic action) {
        case loginActions.LoggedAddUser2:
          state = LoginState(widget: "logged-add-user-2", param: null);
          break;
-
-
-
 
        case loginActions.LoggedViewPoids:
          state = LoginState(widget: "logged-view-poids", param: null);

@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import '../_models/user.dart';
+
 
 class SetEmailLoginAction {
   final String email;
@@ -28,6 +31,14 @@ class SetUserLogOutLoginAction {
   final dynamic store;
   SetUserLogOutLoginAction(this.store);
 }
+class SetChangeLocalizationLanguage {
+  final String lang;
+  SetChangeLocalizationLanguage(this.lang);
+}
+
+
+
+
 
 dynamic dataUser(dynamic state, dynamic action) {
   if (action is SetEmailLoginAction) {
@@ -48,5 +59,11 @@ dynamic dataUser(dynamic state, dynamic action) {
   if (action is SetRegisterState1) {
     state.saveUserRegister(action.user);
   }
+  if (action is SetChangeLocalizationLanguage) {
+    state.saveUserlanguage(action.lang);
+  }
+
+
+
   return state;
 }

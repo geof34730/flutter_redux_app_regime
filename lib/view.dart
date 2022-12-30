@@ -10,12 +10,14 @@ import 'LoginRegister/loginFormState2.dart';
 import 'LoginRegister/register.dart';
 import 'Users/accueil.dart';
 import 'Users/addEdit.dart';
-
+import '_state/appState.dart';
+import '_state/store.dart';
 import 'package:regime_redux_v2/Poids/view.dart';
 import '_models/loginState.dart';
 
 class LoginPage extends StatelessWidget {
-  final Store<dynamic> store;
+  final Store<AppState> store;
+
   LoginPage({
     required this.store,
     Key? key,
@@ -47,6 +49,7 @@ class LoginPage extends StatelessWidget {
                                       StoreConnector<dynamic, LoginState>(
                                       converter: (store) => store.state.loginState,
                                       builder: (context, loginState) {
+                                        print(loginState.widget);
                                         switch (loginState.widget) {
                                           case "email":
                                             returnWidget=loginFormState1(context: context,store:store);

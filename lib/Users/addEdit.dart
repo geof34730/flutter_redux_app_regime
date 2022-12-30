@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:regime_redux_v2/_class/confirm.dart';
 import '../../_class/snackBar.dart';
 import '../../_class/loader.dart';
 import '../../_models/user.dart';
@@ -36,6 +37,8 @@ class _usersAddEdit extends State<usersAddEdit> {
   TextEditingController controllerRegisterFirstName= TextEditingController();
   TextEditingController controllerRegisterLasttName= TextEditingController();
   String? uuidEdit;
+
+
   @override
   void initState() {
     dynamic store = widget.store;
@@ -44,7 +47,7 @@ class _usersAddEdit extends State<usersAddEdit> {
          uuidEdit=store.state.loginState.param.uuid;
          Userdata dateUserEdit=getDataUserEdit(
              dateUsersFamily: store.state.user.usersFamily,
-             StringUuidUserEdit: uuidEdit
+             stringUuidUserEdit: uuidEdit
          );
           controllerRegisterPseudo.text=dateUserEdit.pseudo.toString();
           controllerRegisterSize.text=dateUserEdit.taille.toString();
@@ -53,6 +56,7 @@ class _usersAddEdit extends State<usersAddEdit> {
           controllerRegisterLasttName.text=dateUserEdit.lastname.toString();
           valueRadio=dateUserEdit.sexe!;
           uuidEdit=dateUserEdit.uuid!;
+          imageData=dateUserEdit.imageprofil.toString();
       }
     super.initState();
   }
@@ -121,38 +125,41 @@ class _usersAddEdit extends State<usersAddEdit> {
                                   Row(mainAxisSize: MainAxisSize.min,
                                       children: [
                                           Visibility(
-                                            visible: edit,
+                                            visible: edit && store.state.loginState.param.uuid!=store.state.user.uuid,
                                               child:ElevatedButton.icon(
                                                 style: ButtonStyle(
                                                   backgroundColor:  MaterialStateProperty.all(Colors.red),
                                                 ),
-                                                onPressed:() {
-                                                  print(store.state.loginState.widget);
+                                                onPressed:()  {
+
                                                   if (store.state.loginState.widget == "logged-edit-user-1") {
-                                                     print('2');
-                                                    Loader(context: context, snackBar: true).showLoader();
-                                                    SnackBar snackBar;
-                                                    ServiceUser().deleteUserTeam(
-                                                        userUuidDelete: uuidEdit!,
-                                                        store: store,
-                                                    ).then((value) =>
-                                                    {
-                                                      if(value['code'] == "UD1"){
-                                                        Loader(context: context, snackBar: true).hideLoader(),
-                                                        store.dispatch(loginActions.Logged),
-                                                        SnakBar(context: context, messageSnackBar: value['message'], themeSnackBar: 'success').showSnakBar()
-                                                      }
-                                                      else
-                                                        {
-                                                          Loader(context: context, snackBar: true).hideLoader(),
-                                                          store.dispatch(loginActions.Logout)
-                                                        }
-                                                    });
+                                                    Confirm(
+                                                          context: context,
+                                                          callBackFunction: () => {
+                                                             Loader(context: context, snackBar: true).showLoader(),
+                                                             ServiceUser(context: context).deleteUserTeam(
+                                                                userUuidDelete: uuidEdit!,
+                                                                store: store,
+                                                                ).then((value) =>{
+                                                                  if(value['code'] == "UD1"){
+                                                                    Loader(context: context, snackBar: true).hideLoader(),
+                                                                    store.dispatch(loginActions.Logged),
+                                                                    SnakBar(context: context, messageSnackBar: value['message'], themeSnackBar: 'success').showSnakBar()
+                                                                  }
+                                                                  else
+                                                                    {
+                                                                    Loader(context: context, snackBar: true).hideLoader(),
+                                                                    store.dispatch(loginActions.Logout)
+                                                                    }
+                                                                })
+                                                          },
+                                                          textConfirm: "Êtes-vous sûr de vouloir supprimer l'utilisateur ${controllerRegisterPseudo.text} ?"
+                                                      ).showAlertDialog();
                                                   }
                                                 }
                                                 ,
                                                 icon: const Icon(
-                                                  Icons.check,
+                                                  Icons.delete,
                                                   size: 19.0,
                                                 ),
                                                 label: const Text(
@@ -163,9 +170,7 @@ class _usersAddEdit extends State<usersAddEdit> {
                                           ),
                                         const SizedBox(
                                           width:20.00
-
                                         ),
-
                                         ElevatedButton.icon(
                                           onPressed:(){
                                                errorGenre=(valueRadio=='');
@@ -173,7 +178,7 @@ class _usersAddEdit extends State<usersAddEdit> {
                                                   if(store.state.loginState.widget=="logged-add-user-1" || store.state.loginState.widget=="logged-edit-user-1" ) {
                                                         setState(() {
                                                           (edit ?
-                                                          store.dispatch(store.dispatch(LoggedEditUser2(uuidMofify: uuidEdit)))
+                                                          store.dispatch(LoggedEditUser2(uuidMofify: uuidEdit))
                                                           :
                                                           store.dispatch(loginActions.LoggedAddUser2)
                                                           );
@@ -183,7 +188,8 @@ class _usersAddEdit extends State<usersAddEdit> {
                                                        if(store.state.loginState.widget=="logged-add-user-2" || store.state.loginState.widget=="logged-edit-user-2") {
                                                        Loader(context: context,snackBar: true).showLoader();
                                                            SnackBar snackBar;
-                                                           ServiceUser().addUpdateUserTeam(
+
+                                                           ServiceUser(context: context).addUpdateUserTeam(
                                                                userDataRegister: Userdata(
                                                                 uuid: (edit ? uuidEdit : null),
                                                                 pseudo: controllerRegisterPseudo.text,
@@ -198,7 +204,8 @@ class _usersAddEdit extends State<usersAddEdit> {
                                                                 uuidfamillyadmin: store.state.user.uuid,
                                                                 token: store.state.user.token,
                                                                 usersFamily: null,
-                                                                usersFamilyGlobalState: null
+                                                                usersFamilyGlobalState: null,
+                                                                localization: store.state.user.localization
                                                                 ),
                                                                store: store,
                                                                 edit:edit
@@ -207,7 +214,6 @@ class _usersAddEdit extends State<usersAddEdit> {
                                                                   Loader(context: context,snackBar: true).hideLoader(),
                                                                   store.dispatch(loginActions.Logged),
                                                                   SnakBar(context: context,messageSnackBar:value['message'],themeSnackBar: 'success' ).showSnakBar()
-
                                                                   }
                                                               else{
                                                                   Loader(context: context,snackBar: true).hideLoader(),
@@ -423,14 +429,15 @@ class _usersAddEdit extends State<usersAddEdit> {
               readOnly: true,  //set it true, so that user will not able to edit text
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
-                    context: context, initialDate: DateTime.now(),
+                    context: context,
+                    initialDate: DateTime.now(),
                     firstDate: DateTime(1900), //DateTime.now() - not to allow to choose before today.
-                    lastDate: DateTime(2101),
-                    //initialDatePickerMode: DatePickerMode.year,
-                  initialEntryMode: DatePickerEntryMode.input
+                    lastDate:  DateTime.now(),
+                    initialDatePickerMode: DatePickerMode.year,
+                    initialEntryMode: DatePickerEntryMode.calendar
                 );
                 if(pickedDate != null ){
-                  String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+                  String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
                   setState(() {
                     controllerRegisterDateBirth.text = formattedDate; //set output date to TextField value.
                   });
@@ -464,7 +471,7 @@ class _usersAddEdit extends State<usersAddEdit> {
                   padding: const EdgeInsets.only(top: 5.00),
                   child:CircleAvatar(
                       radius: 100.00,
-                      backgroundImage:  Image.memory(base64Decode(imageData)).image,
+                      backgroundImage:   Image.memory(base64Decode(imageData)).image,
                     ),
                 ),
                  Padding(
@@ -559,9 +566,9 @@ class _usersAddEdit extends State<usersAddEdit> {
 
   }
 
-  dynamic getDataUserEdit({required List<Userdata> dateUsersFamily,required StringUuidUserEdit}){
+  dynamic getDataUserEdit({required List<Userdata> dateUsersFamily,required stringUuidUserEdit}){
     for (int i = 0; i < dateUsersFamily.length; i++) {
-     if (dateUsersFamily[i].uuid == StringUuidUserEdit) {
+     if (dateUsersFamily[i].uuid == stringUuidUserEdit) {
        return dateUsersFamily[i];
      }
     }

@@ -11,7 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../_state/store_user.dart';
 import '../_state/store_connect.dart';
 import '../_models/user.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class accueil extends StatefulWidget {
   final dynamic store;

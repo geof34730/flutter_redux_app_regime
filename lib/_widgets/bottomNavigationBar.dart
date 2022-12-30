@@ -7,14 +7,15 @@ import '../_state/store_connect.dart';
 import 'drawerDevTools.dart';
 
 Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
+  print("************** init dev tools*************");
 
-  print("init dev tools");
+
+
   return StoreProvider<dynamic>(
       store: store,
       child: StoreConnector<dynamic, dynamic>(
-          converter: (store) => store.state,
-          builder: (context, state) {
-            print("init dev tools Store refresh");
+          converter: (store) => store,
+          builder: (context, store) {
            return Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.min,
@@ -25,16 +26,16 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
                      children:[
                         Container(
                             height: 60,
-                            width:MediaQuery.of(context).size.width * (state.loginState.widget=="logged" ? 0.50 : 1),
+                            width:MediaQuery.of(context).size.width * (store.state.loginState.widget.indexOf("logged")<0 ? 1 : 0.50),
                             color: Colors.black12,
                             child: InkWell(
                               onTap: () =>  showDialog(
-                                          context: context,
-                                          builder: (BuildContext context)
-                                              {
-                                                return drawerWidget(context: context, store: store);
-                                              }
-                                          ),
+                                  context: context,
+                                  builder: (BuildContext context)
+                                      {
+                                        return drawerWidget(context: context, store: store);
+                                      }
+                                  ),
                               child: Padding(
                                 padding: EdgeInsets.only(top: 8.0),
                                 child: Column(
@@ -54,7 +55,7 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
                               ),
                             ),
                         ),
-                        if(state.loginState.widget=="logged")Container(
+                        if(store.state.loginState.widget.indexOf("logged")>=0)Container(
                             height: 60,
                             width:MediaQuery.of(context).size.width * 0.50,
                             color: Colors.black12,
@@ -62,6 +63,10 @@ Widget bottomNavigationBarWidgets({required context, required dynamic store}) {
                               onTap: () =>  {
                                 Scaffold.of(context).closeEndDrawer(),
                                 store.dispatch(loginActions.Logout)
+
+
+
+
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(top: 8.0),

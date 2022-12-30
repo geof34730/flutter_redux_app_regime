@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../_state/store_connect.dart';
 import '../_models/loginState.dart';
+import '../_state/store_user.dart';
+import '../main.dart';
 Widget appBarWidgets({required context, required dynamic store}) {
     void mangageActionBackNavigation({required dynamic store}){
         switch (store.state.loginState.widget) {
@@ -43,10 +45,10 @@ Widget appBarWidgets({required context, required dynamic store}) {
       child: StoreConnector<dynamic, dynamic>(
           converter: (store) => store.state,
           builder: (context, state) {
-            if(state.loginState.widget!="logged") {
+            if(state.loginState.widget.indexOf("logged")<0) {
               return AppBar(
                 title: Text(
-                  'TeamWeight   '+Localizations.localeOf(context).toString(),
+                  'TeamWeight   ${Localizations.localeOf(context)}',
                   style: GoogleFonts.pacifico(
                       textStyle: const TextStyle(
                         color: Colors.white,
@@ -54,7 +56,7 @@ Widget appBarWidgets({required context, required dynamic store}) {
                 ),
                 leading:
                  (
-                  state.loginState=="email"
+                  state.loginState.widget=="email"
                       ?
                       null
                       :
@@ -63,8 +65,21 @@ Widget appBarWidgets({required context, required dynamic store}) {
                            onPressed: () => mangageActionBackNavigation(store: store),
                         )
                       ),
-                actions: const[
+                actions: [
                   SizedBox(),
+
+                   TextButton(
+                      child: Text("FR"),
+                      onPressed: () => {
+                        store.dispatch(SetChangeLocalizationLanguage('fr'))
+                      },
+                    ),
+                  TextButton(
+                      child: Text("UK"),
+                      onPressed: () => {
+                        store.dispatch(SetChangeLocalizationLanguage('uk'))
+                      },
+                    ),
                 ],
               );
             }

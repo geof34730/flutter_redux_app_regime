@@ -83,7 +83,7 @@ class _loginFormState2 extends State<loginFormState2> {
                               width: widthContainer,
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
-                                controller: controllerPasswordLogin,
+                                controller: controllerPasswordLogin..text = 'Hefpccy%08%08',
                                 obscureText: passwordEdit,
                                 decoration: InputDecoration(
                                   labelText: 'Mot de passe',
@@ -190,7 +190,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                 ),
                                 onPressed: () {
                                   Loader(context: context,snackBar: true).showLoader();
-                                  ServiceLogin().sendEmailForgetPassword(email: store.state.user.email,store: store,mail: "forgetPassword").then((value) {
+                                  ServiceLogin(context: context).sendEmailForgetPassword(email: store.state.user.email,store: store,mail: "forgetPassword").then((value) {
                                     Loader(context: context,snackBar: true).hideLoader();
                                       return _displayCodeForgetPasswordInputDialog(
                                           context: context,
@@ -218,11 +218,11 @@ class _loginFormState2 extends State<loginFormState2> {
   void sendLoginPassword({required dynamic store, required String mail}){
    void functReturn;
     Loader(context: context,snackBar: true).showLoader();
-    ServiceLogin().sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
+    ServiceLogin(context: context).sendEmailPasswordLogin(password: controllerPasswordLogin.text,store: store,context: context).then((value) =>
         {
         if(value['statut'] == "error"){
           if(value['code']=="ULP2"){
-              ServiceLogin().sendEmailForgetPassword(email: store.state.user.email,store: store,mail:mail).then((value) {
+              ServiceLogin(context: context).sendEmailForgetPassword(email: store.state.user.email,store: store,mail:mail).then((value) {
                 Loader(context: context,snackBar: true).hideLoader();
                 print(value);
 
@@ -348,7 +348,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                                   if (codeSend.length == nbDigitCode) {
                                                     sendService=true;
                                                     Loader(context: context,snackBar: true).showLoader();
-                                                    ServiceLogin().sendCodeForgetPassword(
+                                                    ServiceLogin(context: context).sendCodeForgetPassword(
                                                         email: store.state.user.email,
                                                         codereset: codeSend,
                                                         store: store).then((value) {
@@ -545,7 +545,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                                   if (codeSend.length == nbDigitCode) {
                                                     sendService=true;
                                                     Loader(context: context,snackBar: true).showLoader();
-                                                    ServiceLogin().sendCodeValidationInscription(
+                                                    ServiceLogin(context: context).sendCodeValidationInscription(
                                                         email: store.state.user.email,
                                                         codevalidation: codeSend,
                                                         store: store).then((value) {
@@ -838,7 +838,7 @@ class _loginFormState2 extends State<loginFormState2> {
                                         ?
                                         (){
                                           Loader(context: context,snackBar: true).showLoader();
-                                          ServiceLogin().sendForgetNewPassword(email: store.state.user.email, codereset: codereset, password: controllerPasswordLoginNew1.text, store: store).then((value) {
+                                          ServiceLogin(context: context).sendForgetNewPassword(email: store.state.user.email, codereset: codereset, password: controllerPasswordLoginNew1.text, store: store).then((value) {
                                             setState((){
                                               confirmUpdatePassword=true;
                                             });

@@ -9,7 +9,7 @@ class StringCommon{
   String WriteStateFormString(){
     String returnString='';
     switch (store.state.loginState.widget) {
-          case "register1": case "register2": case "register3":
+          case "register1": case "register2": case "register3": case "register4":
             returnString=store.state.loginState.widget.toString().replaceAll("register", "");
             break;
           case "logged-add-user-1": case "logged-add-user-2":
